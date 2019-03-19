@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zlx.bangbang.dao.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.zlx.bangbang.domain.User" >
+    <constructor >
+      <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="openid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="master_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="user_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="avatar" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="gender" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="balance" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="all_income" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="master_income" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="true_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="phone" jdbcType="BIGINT" javaType="java.lang.Long" />
+      <arg column="school_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="user_pass" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, openid, master_id, user_name, avatar, gender, balance, all_income, master_income, 
+    true_name, phone, school_id, create_time, update_time, user_pass
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_name = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zlx.bangbang.domain.User" >
+    insert into user (id, openid, master_id, 
+      user_name, avatar, gender, 
+      balance, all_income, master_income, 
+      true_name, phone, school_id, 
+      create_time, update_time, user_pass)
+    values (#{id,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{masterId,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{balance,jdbcType=DECIMAL}, #{allIncome,jdbcType=DECIMAL}, #{masterIncome,jdbcType=DECIMAL}, 
+      #{trueName,jdbcType=VARCHAR}, #{phone,jdbcType=BIGINT}, #{schoolId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{userPass,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zlx.bangbang.domain.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="masterId != null" >
+        master_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="balance != null" >
+        balance,
+      </if>
+      <if test="allIncome != null" >
+        all_income,
+      </if>
+      <if test="masterIncome != null" >
+        master_income,
+      </if>
+      <if test="trueName != null" >
+        true_name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="schoolId != null" >
+        school_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="userPass != null" >
+        user_pass,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="masterId != null" >
+        #{masterId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="allIncome != null" >
+        #{allIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="masterIncome != null" >
+        #{masterIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="trueName != null" >
+        #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=BIGINT},
+      </if>
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="user_pass != null" >
+        #{userPass,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zlx.bangbang.domain.User" >
+    update user
+    <set >
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="masterId != null" >
+        master_id = #{masterId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="balance != null" >
+        balance = #{balance,jdbcType=DECIMAL},
+      </if>
+      <if test="allIncome != null" >
+        all_income = #{allIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="masterIncome != null" >
+        master_income = #{masterIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="trueName != null" >
+        true_name = #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=BIGINT},
+      </if>
+      <if test="schoolId != null" >
+        school_id = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userPass != null" >
+        gender = #{user_pass,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zlx.bangbang.domain.User" >
+    update user
+    set openid = #{openid,jdbcType=VARCHAR},
+      master_id = #{masterId,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      balance = #{balance,jdbcType=DECIMAL},
+      all_income = #{allIncome,jdbcType=DECIMAL},
+      master_income = #{masterIncome,jdbcType=DECIMAL},
+      true_name = #{trueName,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=BIGINT},
+      school_id = #{schoolId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      user_pass = #{userPass,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

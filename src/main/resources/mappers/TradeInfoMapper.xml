@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zlx.bangbang.dao.TradeInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zlx.bangbang.domain.TradeInfo" >
+    <constructor >
+      <idArg column="trade_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="coupon_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="coupon_price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="indent_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="indent_price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="total_price" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    trade_id, coupon_id, coupon_price, create_time, indent_id, indent_price, total_price, 
+    update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from trade_info
+    where trade_id = #{tradeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from trade_info
+    where trade_id = #{tradeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zlx.bangbang.domain.TradeInfo" >
+    insert into trade_info (trade_id, coupon_id, coupon_price, 
+      create_time, indent_id, indent_price, 
+      total_price, update_time)
+    values (#{tradeId,jdbcType=INTEGER}, #{couponId,jdbcType=INTEGER}, #{couponPrice,jdbcType=DECIMAL}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{indentId,jdbcType=INTEGER}, #{indentPrice,jdbcType=DECIMAL}, 
+      #{totalPrice,jdbcType=DECIMAL}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zlx.bangbang.domain.TradeInfo" >
+    insert into trade_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tradeId != null" >
+        trade_id,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="couponPrice != null" >
+        coupon_price,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="indentId != null" >
+        indent_id,
+      </if>
+      <if test="indentPrice != null" >
+        indent_price,
+      </if>
+      <if test="totalPrice != null" >
+        total_price,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tradeId != null" >
+        #{tradeId,jdbcType=INTEGER},
+      </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="couponPrice != null" >
+        #{couponPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="indentId != null" >
+        #{indentId,jdbcType=INTEGER},
+      </if>
+      <if test="indentPrice != null" >
+        #{indentPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zlx.bangbang.domain.TradeInfo" >
+    update trade_info
+    <set >
+      <if test="couponId != null" >
+        coupon_id = #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="couponPrice != null" >
+        coupon_price = #{couponPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="indentId != null" >
+        indent_id = #{indentId,jdbcType=INTEGER},
+      </if>
+      <if test="indentPrice != null" >
+        indent_price = #{indentPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrice != null" >
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where trade_id = #{tradeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zlx.bangbang.domain.TradeInfo" >
+    update trade_info
+    set coupon_id = #{couponId,jdbcType=INTEGER},
+      coupon_price = #{couponPrice,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      indent_id = #{indentId,jdbcType=INTEGER},
+      indent_price = #{indentPrice,jdbcType=DECIMAL},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where trade_id = #{tradeId,jdbcType=INTEGER}
+  </update>
+</mapper>

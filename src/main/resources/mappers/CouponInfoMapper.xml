@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zlx.bangbang.dao.CouponInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zlx.bangbang.domain.CouponInfo" >
+    <constructor >
+      <idArg column="coupon_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="least_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="reduce_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="is_deleted" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="valid_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="invalid_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zlx.bangbang.domain.CouponInfo" >
+    <constructor >
+      <idArg column="coupon_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="least_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="reduce_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="is_deleted" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="valid_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="invalid_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="picture" jdbcType="LONGVARBINARY" javaType="_byte[]" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    coupon_id, least_price, reduce_price, is_deleted, valid_time, invalid_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    picture
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from coupon_info
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </select>
+  <select id="findAllGet" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from substitute.coupon_info
+    where invalid_time > curdate()
+    and is_deleted = false
+  </select>
+  <select id="findAllGetExcept" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from substitute.coupon_info
+    where invalid_time > curdate()
+    and is_deleted = false
+    and coupon_id not in
+    <foreach collection="list" item="couponId" index="index"
+             open="(" close=")" separator=",">
+      #{couponId}
+    </foreach>
+  </select>
+  <select id="findTop5ByInvalidTimeAfterAndIsFalseOrderByCouponIdDesc"
+          resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from substitute.coupon_info
+    where curdate() > invalid_time
+    and is_deleted = false
+    order by coupon_id desc limit 5
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from coupon_info
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zlx.bangbang.domain.CouponInfo" >
+    insert into coupon_info (coupon_id, least_price, reduce_price, 
+      is_deleted, valid_time, invalid_time, 
+      picture)
+    values (#{couponId,jdbcType=INTEGER}, #{leastPrice,jdbcType=INTEGER}, #{reducePrice,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=BIT}, #{validTime,jdbcType=TIMESTAMP}, #{invalidTime,jdbcType=TIMESTAMP}, 
+      #{picture,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zlx.bangbang.domain.CouponInfo" >
+    insert into coupon_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="leastPrice != null" >
+        least_price,
+      </if>
+      <if test="reducePrice != null" >
+        reduce_price,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="validTime != null" >
+        valid_time,
+      </if>
+      <if test="invalidTime != null" >
+        invalid_time,
+      </if>
+      <if test="picture != null" >
+        picture,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="couponId != null" >
+        #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="leastPrice != null" >
+        #{leastPrice,jdbcType=INTEGER},
+      </if>
+      <if test="reducePrice != null" >
+        #{reducePrice,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="validTime != null" >
+        #{validTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null" >
+        #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picture != null" >
+        #{picture,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zlx.bangbang.domain.CouponInfo" >
+    update coupon_info
+    <set >
+      <if test="leastPrice != null" >
+        least_price = #{leastPrice,jdbcType=INTEGER},
+      </if>
+      <if test="reducePrice != null" >
+        reduce_price = #{reducePrice,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="validTime != null" >
+        valid_time = #{validTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invalidTime != null" >
+        invalid_time = #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="picture != null" >
+        picture = #{picture,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zlx.bangbang.domain.CouponInfo" >
+    update coupon_info
+    set least_price = #{leastPrice,jdbcType=INTEGER},
+      reduce_price = #{reducePrice,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      valid_time = #{validTime,jdbcType=TIMESTAMP},
+      invalid_time = #{invalidTime,jdbcType=TIMESTAMP},
+      picture = #{picture,jdbcType=LONGVARBINARY}
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zlx.bangbang.domain.CouponInfo" >
+    update coupon_info
+    set least_price = #{leastPrice,jdbcType=INTEGER},
+      reduce_price = #{reducePrice,jdbcType=INTEGER},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      valid_time = #{validTime,jdbcType=TIMESTAMP},
+      invalid_time = #{invalidTime,jdbcType=TIMESTAMP}
+    where coupon_id = #{couponId,jdbcType=INTEGER}
+  </update>
+</mapper>

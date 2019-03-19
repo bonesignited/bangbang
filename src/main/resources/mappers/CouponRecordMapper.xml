@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zlx.bangbang.dao.CouponRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.zlx.bangbang.domain.CouponRecord" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="coupon_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="owner_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="is_used" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="invalid_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, coupon_id, owner_id, is_used, invalid_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from coupon_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from coupon_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zlx.bangbang.domain.CouponRecord" >
+    insert into coupon_record (id, coupon_id, owner_id, 
+      is_used, invalid_time)
+    values (#{id,jdbcType=INTEGER}, #{couponId,jdbcType=INTEGER}, #{ownerId,jdbcType=VARCHAR}, 
+      #{isUsed,jdbcType=BIT}, #{invalidTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zlx.bangbang.domain.CouponRecord" >
+    insert into coupon_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="isUsed != null" >
+        is_used,
+      </if>
+      <if test="invalidTime != null" >
+        invalid_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsed != null" >
+        #{isUsed,jdbcType=BIT},
+      </if>
+      <if test="invalidTime != null" >
+        #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zlx.bangbang.domain.CouponRecord" >
+    update coupon_record
+    <set >
+      <if test="couponId != null" >
+        coupon_id = #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="ownerId != null" >
+        owner_id = #{ownerId,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsed != null" >
+        is_used = #{isUsed,jdbcType=BIT},
+      </if>
+      <if test="invalidTime != null" >
+        invalid_time = #{invalidTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zlx.bangbang.domain.CouponRecord" >
+    update coupon_record
+    set coupon_id = #{couponId,jdbcType=INTEGER},
+      owner_id = #{ownerId,jdbcType=VARCHAR},
+      is_used = #{isUsed,jdbcType=BIT},
+      invalid_time = #{invalidTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findByCouponIdAndOwnerId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from substitute.coupon_record
+    where coupon_record.coupon_id = #{couponId, jdbcType=INTEGER}
+    and coupon_record.owner_id = #{ownerId, jdbcType=VARCHAR}
+  </select>
+  <select id="findLiveByUserId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from substitute.coupon_record
+    where invalid_time > CURDATE()
+    and owner_id = #{userId}
+  </select>
+  <select id="findGetByUserId" resultType="com.zlx.bangbang.domain.CouponRecord">
+    select
+    <include refid="Base_Column_List" />
+    from substitute.coupon_record
+    where is_used = 0
+    and invalid_time > curdate()
+    and owner_id = #{userId}
+  </select>
+</mapper>

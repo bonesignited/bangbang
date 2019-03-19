@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zlx.bangbang.dao.DepositInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.zlx.bangbang.domain.DepositInfo" >
+    <constructor >
+      <idArg column="deposit_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="deposit_openid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="deposit_money" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="is_success" jdbcType="BIT" javaType="java.lang.Boolean" />
+      <arg column="create_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    deposit_id, deposit_openid, deposit_money, is_success, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from deposit_info
+    where deposit_id = #{depositId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from deposit_info
+    where deposit_id = #{depositId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.zlx.bangbang.domain.DepositInfo" >
+    insert into deposit_info (deposit_id, deposit_openid, deposit_money, 
+      is_success, create_time, update_time
+      )
+    values (#{depositId,jdbcType=VARCHAR}, #{depositOpenid,jdbcType=VARCHAR}, #{depositMoney,jdbcType=INTEGER}, 
+      #{isSuccess,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zlx.bangbang.domain.DepositInfo" >
+    insert into deposit_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="depositId != null" >
+        deposit_id,
+      </if>
+      <if test="depositOpenid != null" >
+        deposit_openid,
+      </if>
+      <if test="depositMoney != null" >
+        deposit_money,
+      </if>
+      <if test="isSuccess != null" >
+        is_success,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="depositId != null" >
+        #{depositId,jdbcType=VARCHAR},
+      </if>
+      <if test="depositOpenid != null" >
+        #{depositOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="depositMoney != null" >
+        #{depositMoney,jdbcType=INTEGER},
+      </if>
+      <if test="isSuccess != null" >
+        #{isSuccess,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zlx.bangbang.domain.DepositInfo" >
+    update deposit_info
+    <set >
+      <if test="depositOpenid != null" >
+        deposit_openid = #{depositOpenid,jdbcType=VARCHAR},
+      </if>
+      <if test="depositMoney != null" >
+        deposit_money = #{depositMoney,jdbcType=INTEGER},
+      </if>
+      <if test="isSuccess != null" >
+        is_success = #{isSuccess,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where deposit_id = #{depositId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zlx.bangbang.domain.DepositInfo" >
+    update deposit_info
+    set deposit_openid = #{depositOpenid,jdbcType=VARCHAR},
+      deposit_money = #{depositMoney,jdbcType=INTEGER},
+      is_success = #{isSuccess,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where deposit_id = #{depositId,jdbcType=VARCHAR}
+  </update>
+</mapper>
