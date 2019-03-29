@@ -1,5 +1,6 @@
 package com.zlx.bangbang.domain;
 
+import com.zlx.bangbang.enums.IndentStateEnum;
 import com.zlx.bangbang.enums.IndentTypeEnum;
 
 import java.math.BigDecimal;
@@ -30,7 +31,7 @@ public class Indent {
 
     private Boolean isSolved;
 
-    private String indentState;
+    private IndentStateEnum indentState;
 
     private String secretText;
 
@@ -44,7 +45,7 @@ public class Indent {
 
     private Date updateTime;
 
-    public Indent(Integer indentId, String performerId, String publisherId, Integer couponId, Integer couponPrice, IndentTypeEnum indentType, String requireGender, String indentContent, Integer indentPrice, Integer totalPrice, Byte urgentType, Boolean isSolved, String indentState, String secretText, String takeGoodAddress, Integer shippingAddressId, BigDecimal goodPrice, Date createTime, Date updateTime) {
+    public Indent(Integer indentId, String performerId, String publisherId, Integer couponId, Integer couponPrice, IndentTypeEnum indentType, String requireGender, String indentContent, Integer indentPrice, Integer totalPrice, Byte urgentType, Boolean isSolved, IndentStateEnum indentState, String secretText, String takeGoodAddress, Integer shippingAddressId, BigDecimal goodPrice, Date createTime, Date updateTime) {
         this.indentId = indentId;
         this.performerId = performerId;
         this.publisherId = publisherId;
@@ -166,12 +167,12 @@ public class Indent {
         this.isSolved = isSolved;
     }
 
-    public String getIndentState() {
+    public IndentStateEnum getIndentState() {
         return indentState;
     }
 
-    public void setIndentState(String indentState) {
-        this.indentState = indentState == null ? null : indentState.trim();
+    public void setIndentState(IndentStateEnum indentState) {
+        this.indentState = indentState;
     }
 
     public String getSecretText() {

@@ -6,6 +6,7 @@ import com.zlx.bangbang.service.impl.IndentServiceImpl;
 import com.zlx.bangbang.utils.ResultUtil;
 import com.zlx.bangbang.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class IndentController {
     private IndentServiceImpl indentService;
 
     @GetMapping("/performer/{userId}")
-    public Indent getUserPersonalPerformedIndentList(@PathVariable @NotNull String userId) {
+    public ResponseEntity getUserPersonalPerformedIndentList(@PathVariable @NotNull String userId) {
         return ResultUtil.success(indentService.getUserPerformedIndent(userId));
     }
 }

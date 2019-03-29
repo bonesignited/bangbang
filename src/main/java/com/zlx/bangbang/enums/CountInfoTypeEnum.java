@@ -1,6 +1,6 @@
 package com.zlx.bangbang.enums;
 
-public enum CountInfoTypeEnum {
+public enum CountInfoTypeEnum{
     /**
      * 登录用户
      */
@@ -18,4 +18,5 @@ public enum CountInfoTypeEnum {
      * 新增订单数额
      */
     NEW_INDENT
+
 }

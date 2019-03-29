@@ -7,7 +7,7 @@ import com.zlx.bangbang.vo.IndentVO;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface IIndentService {
+public interface IndentService {
     /**
      * 创建新的订单
      * 若用户余额不足，则抛异常

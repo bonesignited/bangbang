@@ -2,6 +2,8 @@ package com.zlx.bangbang.dao;
 
 import com.zlx.bangbang.domain.WithdrawRequest;
 
+import java.util.List;
+
 public interface WithdrawRequestMapper {
     int deleteByPrimaryKey(Integer withdrawId);
 
@@ -14,4 +16,8 @@ public interface WithdrawRequestMapper {
     int updateByPrimaryKeySelective(WithdrawRequest record);
 
     int updateByPrimaryKey(WithdrawRequest record);
+
+    List<WithdrawRequest> findAllByUserId(String userId);
+
+    List<WithdrawRequest> findAllByIsSolved(boolean isSolved);
 }

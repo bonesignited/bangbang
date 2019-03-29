@@ -1,5 +1,6 @@
 package com.zlx.bangbang.enums;
 
+
 public enum GenderEnum {
     //男
     MALE,

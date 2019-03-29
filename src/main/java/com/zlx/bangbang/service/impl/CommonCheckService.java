@@ -5,7 +5,7 @@ import com.zlx.bangbang.domain.User;
 import com.zlx.bangbang.enums.ResultEnum;
 import com.zlx.bangbang.exceptions.SubtituteException;
 import com.zlx.bangbang.service.CouponInfoService;
-import com.zlx.bangbang.service.IUserService;
+import com.zlx.bangbang.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(rollbackFor = Exception.class)
 public class CommonCheckService {
     @Autowired
-    IUserService userService;
+    UserService userService;
 
     @Autowired
     CouponInfoService couponInfoService;

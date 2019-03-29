@@ -4,7 +4,7 @@ import com.zlx.bangbang.domain.User;
 import com.zlx.bangbang.dto.UserInfoDTO;
 import com.zlx.bangbang.dto.UserLoginDTO;
 
-public interface IUserService {
+public interface UserService {
 
     User login(UserLoginDTO userLoginDTO);
 

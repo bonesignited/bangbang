@@ -4,9 +4,8 @@ import com.zlx.bangbang.dao.UserMapper;
 import com.zlx.bangbang.domain.User;
 import com.zlx.bangbang.dto.UserInfoDTO;
 import com.zlx.bangbang.dto.UserLoginDTO;
-import com.zlx.bangbang.service.IUserService;
+import com.zlx.bangbang.service.UserService;
 import com.zlx.bangbang.utils.RandomUtil;
-import com.zlx.bangbang.utils.ResultUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Service
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
@@ -109,4 +108,5 @@ public class UserServiceImpl implements IUserService {
     public User getUserById(String userId) {
         return userMapper.selectByPrimaryKey(userId);
     }
+
 }

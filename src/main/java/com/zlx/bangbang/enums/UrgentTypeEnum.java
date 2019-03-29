@@ -7,8 +7,8 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum UrgentTypeEnum {
-
+public enum UrgentTypeEnum{
+    // 使用 EnumOrdinalTypeHandler
 
     NOT_URGENT(0, "未加急"),
 

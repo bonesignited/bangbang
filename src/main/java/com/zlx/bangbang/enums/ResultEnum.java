@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum ResultEnum {
+public enum ResultEnum{
     SUCCESS(0, "成功"),
     INNER_ERROR(-1, "服务器异常"),
 

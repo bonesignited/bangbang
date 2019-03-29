@@ -8,6 +8,8 @@ import java.util.List;
 
 @Repository
 public interface CouponInfoMapper {
+    // todo 测试
+
     int deleteByPrimaryKey(Integer couponId);
 
     int insert(CouponInfo record);
