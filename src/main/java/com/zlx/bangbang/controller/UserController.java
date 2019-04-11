@@ -1,40 +1,54 @@
 package com.zlx.bangbang.controller;
 
+import com.zlx.bangbang.constants.Constant;
+import com.zlx.bangbang.domain.Address;
 import com.zlx.bangbang.domain.User;
-import com.zlx.bangbang.dto.UserInfoDTO;
+import com.zlx.bangbang.dto.AddressDTO;
+import com.zlx.bangbang.dto.ModifyUserInfoDTO;
 import com.zlx.bangbang.dto.UserLoginDTO;
-import com.zlx.bangbang.service.impl.UserServiceImpl;
+import com.zlx.bangbang.enums.ResultEnum;
+import com.zlx.bangbang.exceptions.SubstituteException;
+import com.zlx.bangbang.service.AddressService;
+import com.zlx.bangbang.service.UserService;
 import com.zlx.bangbang.utils.ResultUtil;
-import com.zlx.bangbang.utils.TokenUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.liquibase.LiquibaseDataSource;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.nio.file.AccessDeniedException;
+import java.util.List;
 
 @RestController
-public class UserController {
+@Slf4j
+public class UserController{
     @Autowired
-    private TokenUtil tokenUtil;
+    UserService userService;
 
     @Autowired
-    private UserServiceImpl userService;
+    protected AddressService addressService;
 
 
-    @PostMapping("/user/login")
-    public ResponseEntity login(@RequestBody UserLoginDTO userLoginDTO, HttpServletRequest request, HttpServletResponse response) {
+    @PostMapping("/login/user")
+    public ResponseEntity login(@RequestBody UserLoginDTO userLoginDTO, HttpSession session) {
+
         User user = userService.login(userLoginDTO);
+        if (user == null) {
+            return ResultUtil.error(10001, "用户不存在");
+        }
 
-        return ResultUtil.success(tokenUtil.generateToken(user.getId()));
+        session.setAttribute(Constant.CURRENT_USER, user);
+        return ResultUtil.success(user);
     }
 
 
     @PostMapping("/user/register")
-    public ResponseEntity register(@RequestBody UserLoginDTO userLoginDTO, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity register(@RequestBody UserLoginDTO userLoginDTO) {
         String username = userLoginDTO.getId();
         String password = userLoginDTO.getPassword();
 
@@ -42,38 +56,73 @@ public class UserController {
         if (user == null) {
             return ResultUtil.error("注册失败请重试");
         }
-        return ResultUtil.success("注册成功", user);
+
+        // 为用户自动登录
+        User loggedUser = userService.login(userLoginDTO);
+        return ResultUtil.success("注册成功", loggedUser);
     }
 
-    @PostMapping("/user/update-info")
-    public ResponseEntity updateUserInfo(@RequestBody UserInfoDTO userInfoDTO, HttpServletRequest request, HttpServletResponse response) {
-        if (validateToken(request, response)) return ResultUtil.error("token 已过期");
+    /**
+     * 修改用户信息
+     */
+    @PostMapping(value = "/info/{userId}")
+    public ResponseEntity modifyUserInfo(@PathVariable String userId, @RequestBody ModifyUserInfoDTO modifyUserInfoDTO,
+                                         BindingResult bindingResult) {
 
-        UserInfoDTO user = userService.updateUserInfo(userInfoDTO);
-        if (user == null) {
-            return ResultUtil.error("修改信息失败");
+        if (bindingResult.hasErrors()) {
+            return ResultUtil.error("参数不全");
         }
-        return ResultUtil.success("修改信息成功", userInfoDTO);
+        userService.modifyUserInfo(userId, modifyUserInfoDTO);
+        return ResultUtil.success();
     }
 
-    @PostMapping("/user/{id}")
-    public ResponseEntity fetchUserInfo(@PathVariable String id, HttpServletRequest request, HttpServletResponse response) {
-        if (validateToken(request, response)) return ResultUtil.error("token 已过期");
 
-        UserInfoDTO userInfoDTO = userService.getUserInfo(id);
-        if (userInfoDTO == null) {
+    @PostMapping("/{userId}")
+    public ResponseEntity getUserInfo(@PathVariable String userId) {
+
+
+        User user = userService.getUserInfo(userId);
+        if (user == null) {
             return ResultUtil.error("获取用户信息失败");
         }
-        return ResultUtil.success("获取用户信息成功", userInfoDTO);
+        return ResultUtil.success("获取用户信息成功", user);
     }
 
-    private boolean validateToken(HttpServletRequest request, HttpServletResponse response) {
-        String token = request.getHeader("Authorization").substring(7);
-        String validResult = tokenUtil.validateToken(token);
-        if (validResult == null) {
-            return true;
+
+    /**
+     * 地址相关
+     */
+    @PostMapping(value = "/user/address")
+    public ResponseEntity addAddress(@RequestBody AddressDTO address) throws AccessDeniedException {
+
+        String userId = address.getUserId();
+        addressService.addUsualAddress(userId, address);
+        return ResultUtil.success();
+    }
+
+    @GetMapping(value = "/user/address/delete")
+    public ResponseEntity deleteAddress(Integer addressId, String userId) throws AccessDeniedException {
+        addressService.deleteAddress(addressId, userId);
+        return ResultUtil.success();
+    }
+
+    @PostMapping("/user/address/modify")
+    public ResponseEntity modifyAddress(@RequestBody AddressDTO address) throws AccessDeniedException {
+        addressService.modifyAddress(address.getAddressId(), address.getUserId(), address);
+        return ResultUtil.success();
+    }
+
+    /**
+     * 获取所有常用地址列表, 当key不为空的时候按关键词进行模糊匹配
+     */
+    @GetMapping(value = "/user/addresses/{userId}")
+    public ResponseEntity getAllAddress(@PathVariable String userId, String key) {
+        List<Address> addresses;
+        if (key != null) {
+            addresses = addressService.getAllByAddress(userId, key);
+        } else {
+            addresses = addressService.getUsualAddress(userId);
         }
-        response.setHeader("token", validResult);
-        return false;
+        return ResultUtil.success(addresses);
     }
 }

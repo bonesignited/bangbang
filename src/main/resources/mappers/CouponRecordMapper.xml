@@ -103,15 +103,15 @@
     select
     <include refid="Base_Column_List" />
     from substitute.coupon_record
-    where invalid_time > CURDATE()
+    where invalid_time > NOW()
+    and is_used = 0
     and owner_id = #{userId}
   </select>
-  <select id="findGetByUserId" resultType="com.zlx.bangbang.domain.CouponRecord">
+  <select id="findGetByUserId" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from substitute.coupon_record
-    where is_used = 0
-    and invalid_time > curdate()
-    and owner_id = #{userId}
+    where owner_id = #{userId}
+    and is_used = 0
   </select>
 </mapper>

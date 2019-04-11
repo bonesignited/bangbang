@@ -10,8 +10,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.redis.cache.RedisCacheManager;
 
 @SpringBootApplication
-@MapperScan("com.zlx.bangbang.dao")
-//@Slf4j
+@Slf4j
 public class BangbangApplication {
 
     public static void main(String[] args) {

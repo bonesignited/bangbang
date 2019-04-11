@@ -8,14 +8,21 @@
       <arg column="publisher_id" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="coupon_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="coupon_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="indent_type" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="require_gender" jdbcType="VARCHAR" javaType="java.lang.String" />
+
+      <arg column="indent_type" jdbcType="VARCHAR" javaType="com.zlx.bangbang.enums.IndentTypeEnum"
+           typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+      <arg column="require_gender" jdbcType="VARCHAR" javaType="com.zlx.bangbang.enums.GenderEnum"
+           typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+
       <arg column="indent_content" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="indent_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="total_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="urgent_type" jdbcType="TINYINT" javaType="java.lang.Byte" />
       <arg column="is_solved" jdbcType="BIT" javaType="java.lang.Boolean" />
-      <arg column="indent_state" jdbcType="VARCHAR" javaType="java.lang.String" />
+
+      <arg column="indent_state" jdbcType="VARCHAR" javaType="com.zlx.bangbang.enums.IndentStateEnum"
+           typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+
       <arg column="secret_text" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="take_good_address" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="shipping_address_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -24,22 +31,86 @@
       <arg column="update_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+
   <sql id="Base_Column_List" >
     indent_id, performer_id, publisher_id, coupon_id, coupon_price, indent_type, require_gender, 
     indent_content, indent_price, total_price, urgent_type, is_solved, indent_state, 
     secret_text, take_good_address, shipping_address_id, good_price, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+
+  <select id="findByIndentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from indent
     where indent_id = #{indentId,jdbcType=INTEGER}
   </select>
+
+  <select id="findByPerformerId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from substitute.indent
+    where performer_id = #{userId}
+  </select>
+
+  <select id="findByPublisherId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from substitute.indent
+    where publisher_id = #{publisherId}
+  </select>
+
+  <select id="findAllByIndentStateAndRequireGenderNot" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from substitute.indent
+    where indent_state = #{state, jdbcType=VARCHAR}
+    and require_gender != #{gender, jdbcType=VARCHAR}
+  </select>
+
+  <select id="findAllByIndentStateAndRequireGenderNotOrderByIndentPriceDesc"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from substitute.indent
+    where indent_state = #{state, jdbcType=VARCHAR}
+    and require_gender != #{gender, jdbcType=VARCHAR}
+    order by indent_price desc
+  </select>
+
+  <select id="findAllByIndentStateAndRequireGenderNotOrderByCreateTimeDesc"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from substitute.indent
+    where indent_state = #{state, jdbcType=VARCHAR}
+    and require_gender != #{gender, jdbcType=VARCHAR}
+    order by create_time desc
+  </select>
+
+  <select id="findAllByIndentStateOrderCreateTimeDesc" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from substitute.indent
+    where indent_state = #{state, jdbcType=VARCHAR}
+    order by create_time desc
+  </select>
+
+  <select id="findAllByIsSolvedAndUrgentTypeGreaterThanOrderByCreateTimeDesc"
+          resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from substitute.indent
+    where is_solved = #{isSolved}
+    and urgent_type > #{type}
+    order by create_time desc
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from indent
     where indent_id = #{indentId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.zlx.bangbang.domain.Indent" >
+
+  <insert id="insert" useGeneratedKeys="true" keyProperty="indentId" parameterType="com.zlx.bangbang.domain.Indent" >
     insert into indent (indent_id, performer_id, publisher_id, 
       coupon_id, coupon_price, indent_type, 
       require_gender, indent_content, indent_price, 
@@ -48,14 +119,15 @@
       shipping_address_id, good_price, create_time, 
       update_time)
     values (#{indentId,jdbcType=INTEGER}, #{performerId,jdbcType=VARCHAR}, #{publisherId,jdbcType=VARCHAR}, 
-      #{couponId,jdbcType=INTEGER}, #{couponPrice,jdbcType=INTEGER}, #{indentType,jdbcType=VARCHAR}, 
-      #{requireGender,jdbcType=VARCHAR}, #{indentContent,jdbcType=VARCHAR}, #{indentPrice,jdbcType=INTEGER}, 
+      #{couponId,jdbcType=INTEGER}, #{couponPrice,jdbcType=INTEGER}, #{indentType,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+      #{requireGender,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler}, #{indentContent,jdbcType=VARCHAR}, #{indentPrice,jdbcType=INTEGER},
       #{totalPrice,jdbcType=INTEGER}, #{urgentType,jdbcType=TINYINT}, #{isSolved,jdbcType=BIT}, 
-      #{indentState,jdbcType=VARCHAR}, #{secretText,jdbcType=VARCHAR}, #{takeGoodAddress,jdbcType=VARCHAR}, 
+      #{indentState,jdbcType=VARCHAR, typeHandler=org.apache.ibatis.type.EnumTypeHandler}, #{secretText,jdbcType=VARCHAR}, #{takeGoodAddress,jdbcType=VARCHAR},
       #{shippingAddressId,jdbcType=INTEGER}, #{goodPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.zlx.bangbang.domain.Indent" >
+
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="indentId" parameterType="com.zlx.bangbang.domain.Indent" >
     insert into indent
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="indentId != null" >
@@ -133,10 +205,10 @@
         #{couponPrice,jdbcType=INTEGER},
       </if>
       <if test="indentType != null" >
-        #{indentType,jdbcType=VARCHAR},
+        #{indentType,jdbcType=VARCHAR, typeHandler=org.apache.ibatis.type.EnumTypeHandler},
       </if>
       <if test="requireGender != null" >
-        #{requireGender,jdbcType=VARCHAR},
+        #{requireGender,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
       </if>
       <if test="indentContent != null" >
         #{indentContent,jdbcType=VARCHAR},
@@ -154,7 +226,7 @@
         #{isSolved,jdbcType=BIT},
       </if>
       <if test="indentState != null" >
-        #{indentState,jdbcType=VARCHAR},
+        #{indentState,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
       </if>
       <if test="secretText != null" >
         #{secretText,jdbcType=VARCHAR},
@@ -176,6 +248,7 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.zlx.bangbang.domain.Indent" >
     update indent
     <set >
@@ -192,10 +265,10 @@
         coupon_price = #{couponPrice,jdbcType=INTEGER},
       </if>
       <if test="indentType != null" >
-        indent_type = #{indentType,jdbcType=VARCHAR},
+        indent_type = #{indentType,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
       </if>
       <if test="requireGender != null" >
-        require_gender = #{requireGender,jdbcType=VARCHAR},
+        require_gender = #{requireGender,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
       </if>
       <if test="indentContent != null" >
         indent_content = #{indentContent,jdbcType=VARCHAR},
@@ -213,7 +286,7 @@
         is_solved = #{isSolved,jdbcType=BIT},
       </if>
       <if test="indentState != null" >
-        indent_state = #{indentState,jdbcType=VARCHAR},
+        indent_state = #{indentState,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
       </if>
       <if test="secretText != null" >
         secret_text = #{secretText,jdbcType=VARCHAR},
@@ -236,20 +309,21 @@
     </set>
     where indent_id = #{indentId,jdbcType=INTEGER}
   </update>
+
   <update id="updateByPrimaryKey" parameterType="com.zlx.bangbang.domain.Indent" >
     update indent
     set performer_id = #{performerId,jdbcType=VARCHAR},
       publisher_id = #{publisherId,jdbcType=VARCHAR},
       coupon_id = #{couponId,jdbcType=INTEGER},
       coupon_price = #{couponPrice,jdbcType=INTEGER},
-      indent_type = #{indentType,jdbcType=VARCHAR},
-      require_gender = #{requireGender,jdbcType=VARCHAR},
+      indent_type = #{indentType,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
+      require_gender = #{requireGender,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
       indent_content = #{indentContent,jdbcType=VARCHAR},
       indent_price = #{indentPrice,jdbcType=INTEGER},
       total_price = #{totalPrice,jdbcType=INTEGER},
       urgent_type = #{urgentType,jdbcType=TINYINT},
       is_solved = #{isSolved,jdbcType=BIT},
-      indent_state = #{indentState,jdbcType=VARCHAR},
+      indent_state = #{indentState,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
       secret_text = #{secretText,jdbcType=VARCHAR},
       take_good_address = #{takeGoodAddress,jdbcType=VARCHAR},
       shipping_address_id = #{shippingAddressId,jdbcType=INTEGER},

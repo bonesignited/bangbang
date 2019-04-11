@@ -1,7 +1,10 @@
 package com.zlx.bangbang.domain;
 
+import lombok.ToString;
+
 import java.util.Date;
 
+@ToString
 public class CouponRecord {
     private Integer id;
 

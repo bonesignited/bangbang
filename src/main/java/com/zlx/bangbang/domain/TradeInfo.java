@@ -1,5 +1,8 @@
 package com.zlx.bangbang.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.zlx.bangbang.utils.Date2LongSerializer;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -10,6 +13,7 @@ public class TradeInfo {
 
     private BigDecimal couponPrice;
 
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date createTime;
 
     private Integer indentId;
@@ -18,6 +22,7 @@ public class TradeInfo {
 
     private BigDecimal totalPrice;
 
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date updateTime;
 
     public TradeInfo(Integer tradeId, Integer couponId, BigDecimal couponPrice, Date createTime, Integer indentId, BigDecimal indentPrice, BigDecimal totalPrice, Date updateTime) {

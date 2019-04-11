@@ -19,7 +19,13 @@
     from feedback
     where feedback_id = #{feedbackId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="findByIsRead" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+      from substitute.feedback
+      where is_read = true
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from feedback
     where feedback_id = #{feedbackId,jdbcType=INTEGER}
   </delete>

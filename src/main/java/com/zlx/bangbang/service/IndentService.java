@@ -2,10 +2,10 @@ package com.zlx.bangbang.service;
 
 import com.zlx.bangbang.domain.Indent;
 import com.zlx.bangbang.enums.GenderEnum;
+import com.zlx.bangbang.vo.IndentListVO;
 import com.zlx.bangbang.vo.IndentVO;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 public interface IndentService {
     /**
@@ -61,14 +61,14 @@ public interface IndentService {
      * @param userId
      * @return 该用户已发布的订单列表
      */
-    List<IndentVO> getUserPublishedIndent(String userId);
+    IndentListVO getUserPublishedIndent(String userId, int pageNum, int pageSize);
 
     /**
      * 获取用户接的订单
      * @param userId
      * @return 该用户已接订单列表
      */
-    List<IndentVO> getUserPerformedIndent(String userId);
+    IndentListVO getUserPerformedIndent(String userId, int pageNum, int pageSize);
 
     /**
      * 查询同性别的订单列表，排序列表为 sortType
@@ -77,7 +77,7 @@ public interface IndentService {
      * @param sexType
      * @return 订单列表
      */
-    List<IndentVO> getWait(Integer sortType, GenderEnum sexType);
+    IndentListVO getWait(Integer sortType, GenderEnum sexType, int pageNum, int pageSize);
 
     /**
      * 获取指定订单信息

@@ -1,12 +1,14 @@
 package com.zlx.bangbang.dao;
 
 import com.zlx.bangbang.domain.CouponRecord;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
+@Mapper
 public interface CouponRecordMapper {
     int deleteByPrimaryKey(Integer id);
 

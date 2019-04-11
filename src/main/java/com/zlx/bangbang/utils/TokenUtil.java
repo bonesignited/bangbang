@@ -71,25 +71,10 @@ public class TokenUtil {
         Date now = new Date(System.currentTimeMillis());
 
         if (redisTemplate.hasKey(userId)) {
-            if (now.before(exp)) {  // 未过期
-                String oldToken = redisTemplate.opsForValue().get(userId);
-                log.info(userId + " 的 token 没有过期，查到后直接返回");
-                return oldToken;
-            } else if (now.after(exp) || now.before(new Date(exp.getTime() + this.expiration))) {
-                String refreshedToken = this.generateToken(userId);
-                // 设置新的token及其过期时间
-                redisTemplate.opsForValue().set(userId, refreshedToken, this.expiration, TimeUnit.SECONDS);
-                log.info(userId + " 的 token 需要刷新");
-                return refreshedToken;
-            } else {
-                // 完全过期，需要重新生成
-                log.info(userId + " 的 token 已过期，需要重新登录");
-                return null;
-            }
-        } else {
-            // 完全过期，需要重新生成
-            log.info(userId + " 的 token 已过期，需要重新登录");
             return null;
+        } else {
+            log.info(userId + " 的 token 已过期");
+            return generateToken(userId);
         }
     }
 }

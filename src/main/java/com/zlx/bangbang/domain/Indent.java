@@ -1,11 +1,16 @@
 package com.zlx.bangbang.domain;
 
+import com.zlx.bangbang.enums.GenderEnum;
 import com.zlx.bangbang.enums.IndentStateEnum;
 import com.zlx.bangbang.enums.IndentTypeEnum;
+import lombok.Builder;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
+@ToString
+@Builder
 public class Indent {
     private Integer indentId;
 
@@ -19,7 +24,7 @@ public class Indent {
 
     private IndentTypeEnum indentType;
 
-    private String requireGender;
+    private GenderEnum requireGender;
 
     private String indentContent;
 
@@ -45,7 +50,7 @@ public class Indent {
 
     private Date updateTime;
 
-    public Indent(Integer indentId, String performerId, String publisherId, Integer couponId, Integer couponPrice, IndentTypeEnum indentType, String requireGender, String indentContent, Integer indentPrice, Integer totalPrice, Byte urgentType, Boolean isSolved, IndentStateEnum indentState, String secretText, String takeGoodAddress, Integer shippingAddressId, BigDecimal goodPrice, Date createTime, Date updateTime) {
+    public Indent(Integer indentId, String performerId, String publisherId, Integer couponId, Integer couponPrice, IndentTypeEnum indentType, GenderEnum requireGender, String indentContent, Integer indentPrice, Integer totalPrice, Byte urgentType, Boolean isSolved, IndentStateEnum indentState, String secretText, String takeGoodAddress, Integer shippingAddressId, BigDecimal goodPrice, Date createTime, Date updateTime) {
         this.indentId = indentId;
         this.performerId = performerId;
         this.publisherId = publisherId;
@@ -119,12 +124,12 @@ public class Indent {
         this.indentType = indentType;
     }
 
-    public String getRequireGender() {
+    public GenderEnum getRequireGender() {
         return requireGender;
     }
 
-    public void setRequireGender(String requireGender) {
-        this.requireGender = requireGender == null ? null : requireGender.trim();
+    public void setRequireGender(GenderEnum requireGender) {
+        this.requireGender = requireGender;
     }
 
     public String getIndentContent() {

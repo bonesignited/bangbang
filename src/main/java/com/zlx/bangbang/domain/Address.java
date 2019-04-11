@@ -1,5 +1,12 @@
 package com.zlx.bangbang.domain;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.ToString;
+
+@ToString
+@Data
+@Builder
 public class Address {
     private Integer id;
 

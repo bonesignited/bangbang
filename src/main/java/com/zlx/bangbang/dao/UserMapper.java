@@ -1,9 +1,11 @@
 package com.zlx.bangbang.dao;
 
 import com.zlx.bangbang.domain.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Mapper
 public interface UserMapper {
     int deleteByPrimaryKey(String id);
 

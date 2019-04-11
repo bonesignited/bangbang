@@ -1,7 +1,11 @@
 package com.zlx.bangbang.dao;
 
 import com.zlx.bangbang.domain.DepositInfo;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Repository;
 
+@Repository
+@Mapper
 public interface DepositInfoMapper {
     int deleteByPrimaryKey(String depositId);
 

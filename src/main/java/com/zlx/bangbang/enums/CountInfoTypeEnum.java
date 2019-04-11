@@ -1,6 +1,6 @@
 package com.zlx.bangbang.enums;
 
-public enum CountInfoTypeEnum{
+public enum CountInfoTypeEnum implements BaseEnum{
     /**
      * 登录用户
      */

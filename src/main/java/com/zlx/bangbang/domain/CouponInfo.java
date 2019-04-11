@@ -1,5 +1,10 @@
 package com.zlx.bangbang.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.zlx.bangbang.utils.Date2LongSerializer;
+import lombok.Data;
+import lombok.ToString;
+
 import java.util.Date;
 
 public class CouponInfo {
@@ -9,10 +14,13 @@ public class CouponInfo {
 
     private Integer reducePrice;
 
+
     private Boolean isDeleted;
 
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date validTime;
 
+    @JsonSerialize(using = Date2LongSerializer.class)
     private Date invalidTime;
 
     private byte[] picture;

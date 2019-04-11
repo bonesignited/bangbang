@@ -1,5 +1,11 @@
 package com.zlx.bangbang.domain;
 
+
+import lombok.Data;
+import lombok.ToString;
+
+@Data
+@ToString
 public class School {
     private Integer id;
 

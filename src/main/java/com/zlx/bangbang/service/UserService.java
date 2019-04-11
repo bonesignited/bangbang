@@ -1,8 +1,10 @@
 package com.zlx.bangbang.service;
 
 import com.zlx.bangbang.domain.User;
-import com.zlx.bangbang.dto.UserInfoDTO;
+import com.zlx.bangbang.dto.ModifyUserInfoDTO;
 import com.zlx.bangbang.dto.UserLoginDTO;
+
+import java.math.BigDecimal;
 
 public interface UserService {
 
@@ -10,9 +12,13 @@ public interface UserService {
 
     User register(String username, String password);
 
-    UserInfoDTO updateUserInfo(UserInfoDTO userInfoDTO);
+    boolean modifyUserInfo(String userId, ModifyUserInfoDTO newInfo);
 
-    UserInfoDTO getUserInfo(String id);
+    User getUserInfo(String id);
 
     User getUserById(String userId);
+
+    void saveUser(User user);
+
+    void reduceBalance(String userId, BigDecimal number);
 }

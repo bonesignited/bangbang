@@ -18,7 +18,7 @@ public interface CouponInfoService {
      */
     CouponListVO findListByUserId(String userId);
 
-    CouponInfo getSpecificCoupon(int id);
+    CouponInfo getSpecificCoupon(Integer id);
 
     /**
      * 返回首页轮播图中的优惠券信息

@@ -5,12 +5,13 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum ResultEnum{
+public enum ResultEnum implements CodeEnum{
     SUCCESS(0, "成功"),
     INNER_ERROR(-1, "服务器异常"),
 
     // -101xx 为用户错误
     USER_NOT_EXISTS(-10101, "用户不存在"),
+    NEED_LOGIN(-10102, "用户未登录，请先登录"),
 
     // -102xx 为参数错误
     PARAM_ERROR(-10201, "参数格式有误"),

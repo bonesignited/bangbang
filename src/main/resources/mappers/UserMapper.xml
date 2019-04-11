@@ -8,7 +8,8 @@
       <arg column="master_id" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="user_name" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="avatar" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="gender" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="gender" jdbcType="VARCHAR" javaType="com.zlx.bangbang.enums.GenderEnum"
+        typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
       <arg column="balance" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
       <arg column="all_income" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
       <arg column="master_income" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
@@ -34,7 +35,7 @@
     select
     <include refid="Base_Column_List" />
     from user
-    where user_name = #{userId,jdbcType=VARCHAR}
+    where id = #{userId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from user
@@ -192,7 +193,7 @@
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="userPass != null" >
-        gender = #{user_pass,jdbcType=VARCHAR},
+        user_pass = #{userPass,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}

@@ -1,7 +1,7 @@
 package com.zlx.bangbang.enums;
 
 
-public enum GenderEnum {
+public enum GenderEnum implements BaseEnum{
     //男
     MALE,
     //女

@@ -2,20 +2,25 @@ package com.zlx.bangbang.service.impl;
 
 import com.zlx.bangbang.dao.UserMapper;
 import com.zlx.bangbang.domain.User;
-import com.zlx.bangbang.dto.UserInfoDTO;
+import com.zlx.bangbang.dto.ModifyUserInfoDTO;
 import com.zlx.bangbang.dto.UserLoginDTO;
+import com.zlx.bangbang.exceptions.SubstituteException;
 import com.zlx.bangbang.service.UserService;
 import com.zlx.bangbang.utils.RandomUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Service
+@Transactional(rollbackFor = Exception.class)
+@Slf4j
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
@@ -31,7 +36,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public User login(UserLoginDTO userLoginDTO) {
         User user = userMapper.selectByPrimaryKey(userLoginDTO.getId());
-
+        if (user == null) {
+            return null;
+        }
         String password = user.getUserPass();
         // 检查密码是否相等
         if (matches(userLoginDTO.getPassword(), password)) {
@@ -62,51 +69,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserInfoDTO updateUserInfo(UserInfoDTO userInfoDTO) {
-
-        // 若为第一次提交信息
-        User databaseUserInfo = userMapper.selectByPrimaryKey(userInfoDTO.getId());
-        if (databaseUserInfo.getTrueName() == null) {
-            BeanUtils.copyProperties(databaseUserInfo, userInfoDTO);
-            int rows = userMapper.updateByPrimaryKeySelective(databaseUserInfo);
-            if (rows != 1) {
-                return null;
-            }
-            return userInfoDTO;
-        }
-
-        // 之前已提交过信息，现在要修改
-        // 性别和姓名不能改
-        databaseUserInfo.setAvatar(userInfoDTO.getAvatar());
-        databaseUserInfo.setPhone(userInfoDTO.getPhone());
-        databaseUserInfo.setSchoolId(userInfoDTO.getSchoolId());
-
-        // 设置此次更新时间
-        databaseUserInfo.setUpdateTime(new Date(System.currentTimeMillis()));
-
+    public boolean modifyUserInfo(String userId, ModifyUserInfoDTO newInfo) {
+        User databaseUserInfo = userMapper.selectByPrimaryKey(userId);
+        BeanUtils.copyProperties(newInfo, databaseUserInfo);
         int rows = userMapper.updateByPrimaryKeySelective(databaseUserInfo);
-        if (rows != 1) {
-            return null;
-        }
-
-        return userInfoDTO;
+        return rows == 1;
     }
 
     @Override
-    public UserInfoDTO getUserInfo(String id) {
+    public User getUserInfo(String id) {
         User user = userMapper.selectByPrimaryKey(id);
         if (user == null) {
             return null;
         }
-        UserInfoDTO userInfoDTO = new UserInfoDTO();
-        BeanUtils.copyProperties(user, userInfoDTO);
 
-        return userInfoDTO;
+        return user;
     }
 
     @Override
     public User getUserById(String userId) {
         return userMapper.selectByPrimaryKey(userId);
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    @Override
+    public void reduceBalance(String userId, BigDecimal number) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user == null) {
+            log.error("【扣除用户余额】扣除失败，不存在该用户，userId={}", userId);
+            throw new SubstituteException("【扣除用户余额】扣除失败，不存在该用户");
+        }
+        user.setBalance(user.getBalance().subtract(number));
+
+        userMapper.updateByPrimaryKeySelective(user);
     }
 
 }

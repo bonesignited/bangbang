@@ -26,4 +26,5 @@ public interface Constant {
     String NO_LIMITED = "NO_LIMITED";
 
     String WITHDRAW = "WITHDRAW";
+    String CURRENT_USER = "CURRENT_USER";
 }

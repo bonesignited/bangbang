@@ -20,6 +20,20 @@
     from address
     where id = #{id,jdbcType=INTEGER}
   </select>
+    <select id="findAddressByUserIdAndIsDeletedIsFalse" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from substitute.address
+      where user_id = #{userId,jdbcType=VARCHAR}
+      and is_deleted = false
+    </select>
+  <select id="findAllByUserIdAndAddressLikeAndIsDeletedIsFalse" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from substitute.address
+    where user_id = #{userId, jdbcType=VARCHAR}
+    and address like #{address, jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from address
     where id = #{id,jdbcType=INTEGER}

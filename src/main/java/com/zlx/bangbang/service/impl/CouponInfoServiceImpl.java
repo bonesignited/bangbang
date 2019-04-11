@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@Transactional(rollbackFor = Exception.class)
 public class CouponInfoServiceImpl implements CouponInfoService {
     @Autowired
     CouponInfoMapper couponInfoMapper;
@@ -37,14 +39,15 @@ public class CouponInfoServiceImpl implements CouponInfoService {
         CouponListVO couponListVO = new CouponListVO();
         // 1 获取已领取且可用的优惠券
         // 1.1 获取所有已领取信息
-        List<CouponRecord> couponRecords = couponRecordService.findGetByUserId(userId);
+        List<CouponRecord> couponRecords = couponRecordService.findLiveByUserId(userId);
         List<Integer> couponIds = new ArrayList<>();
         couponRecords.forEach(x -> {
             if (!x.getIsUsed()) {
                 couponIds.add(x.getCouponId());
             }
         });
-
+        List<CouponInfo> liveCouponInfos = couponInfoMapper.findAllByCouponIdIsInAndIsDeletedIsFalse(couponIds);
+        couponListVO.setLiveCoupons(liveCouponInfos);
         // 2 获取未领取但可领取的优惠券
         // 获取该用户已领取的优惠券 id
         List<Integer> couponGetIds = couponRecords.stream().map(CouponRecord::getCouponId).collect(Collectors.toList());
@@ -61,7 +64,7 @@ public class CouponInfoServiceImpl implements CouponInfoService {
     }
 
     @Override
-    public CouponInfo getSpecificCoupon(int id) {
+    public CouponInfo getSpecificCoupon(Integer id) {
         return couponInfoMapper.selectByPrimaryKey(id);
     }
 

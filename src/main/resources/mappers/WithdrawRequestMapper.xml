@@ -18,6 +18,21 @@
     from withdraw_request
     where withdraw_id = #{withdrawId,jdbcType=INTEGER}
   </select>
+
+  <select id="findAllByUserId" resultType="com.zlx.bangbang.domain.WithdrawRequest">
+    select
+    <include refid="Base_Column_List"/>
+    from substitute.withdraw_request
+    where user_id = #{userId}
+  </select>
+
+  <select id="findAllByIsSolved" resultType="com.zlx.bangbang.domain.WithdrawRequest">
+    select
+    <include refid="Base_Column_List"/>
+    from substitute.withdraw_request
+    where is_solved = #{isSolved}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from withdraw_request
     where withdraw_id = #{withdrawId,jdbcType=INTEGER}

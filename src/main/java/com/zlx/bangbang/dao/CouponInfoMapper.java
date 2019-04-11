@@ -1,12 +1,14 @@
 package com.zlx.bangbang.dao;
 
 import com.zlx.bangbang.domain.CouponInfo;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
 
 @Repository
+@Mapper
 public interface CouponInfoMapper {
     // todo 测试
 
@@ -29,4 +31,6 @@ public interface CouponInfoMapper {
     List<CouponInfo> findAllGetExcept(List<Integer> couponGetIds);
 
     List<CouponInfo> findTop5ByInvalidTimeAfterAndIsFalseOrderByCouponIdDesc(Date date);
+
+    List<CouponInfo> findAllByCouponIdIsInAndIsDeletedIsFalse(List<Integer> couponIds);
 }

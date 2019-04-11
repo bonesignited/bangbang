@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
+@Transactional(rollbackFor = Exception.class)
 public class AddressServiceImpl implements AddressService {
     @Autowired
     private UserMapper userMapper;
@@ -26,16 +28,18 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void addUsualAddress(String userId, AddressDTO addressDTO) throws AccessDeniedException {
+        log.info(userId + "将修改地址");
         User user = userMapper.selectByPrimaryKey(userId);
         if (!addressDTO.getUserId().equals(userId)) {
             throw new AccessDeniedException("Access Denied");
         }
-        if (user == null) {
+        if (user != null) {
             Address address = new Address();
             address.setUserId(userId);
             BeanUtils.copyProperties(addressDTO, address);
             addressMapper.insertSelective(address);
         }
+        log.info(userId + " 修改地址完毕，新地址为" + addressDTO.getAddress());
     }
 
     @Override

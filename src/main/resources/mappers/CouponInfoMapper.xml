@@ -7,8 +7,8 @@
       <arg column="least_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="reduce_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="is_deleted" jdbcType="BIT" javaType="java.lang.Boolean" />
-      <arg column="valid_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="invalid_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="valid_time" jdbcType="DATE" javaType="java.util.Date" />
+      <arg column="invalid_time" jdbcType="DATE" javaType="java.util.Date" />
     </constructor>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.zlx.bangbang.domain.CouponInfo" >
@@ -17,8 +17,8 @@
       <arg column="least_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="reduce_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="is_deleted" jdbcType="BIT" javaType="java.lang.Boolean" />
-      <arg column="valid_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="invalid_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="valid_time" jdbcType="DATE" javaType="java.util.Date" />
+      <arg column="invalid_time" jdbcType="DATE" javaType="java.util.Date" />
       <arg column="picture" jdbcType="LONGVARBINARY" javaType="_byte[]" />
     </constructor>
   </resultMap>
@@ -42,7 +42,7 @@
     ,
     <include refid="Blob_Column_List" />
     from substitute.coupon_info
-    where invalid_time > curdate()
+    where invalid_time > NOW()
     and is_deleted = false
   </select>
   <select id="findAllGetExcept" resultMap="ResultMapWithBLOBs">
@@ -51,7 +51,7 @@
     ,
     <include refid="Blob_Column_List" />
     from substitute.coupon_info
-    where invalid_time > curdate()
+    where invalid_time > NOW()
     and is_deleted = false
     and coupon_id not in
     <foreach collection="list" item="couponId" index="index"
@@ -66,9 +66,23 @@
     ,
     <include refid="Blob_Column_List" />
     from substitute.coupon_info
-    where curdate() > invalid_time
+    where NOW() > invalid_time
     and is_deleted = false
     order by coupon_id desc limit 5
+  </select>
+  <select id="findAllByCouponIdIsInAndIsDeletedIsFalse" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from substitute.coupon_info
+    where invalid_time > NOW()
+    and is_deleted = false
+    and coupon_id in
+    <foreach collection="list" item="couponId" index="index"
+             open="(" close=")" separator=",">
+      #{couponId}
+    </foreach>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from coupon_info
@@ -79,7 +93,7 @@
       is_deleted, valid_time, invalid_time, 
       picture)
     values (#{couponId,jdbcType=INTEGER}, #{leastPrice,jdbcType=INTEGER}, #{reducePrice,jdbcType=INTEGER}, 
-      #{isDeleted,jdbcType=BIT}, #{validTime,jdbcType=TIMESTAMP}, #{invalidTime,jdbcType=TIMESTAMP}, 
+      #{isDeleted,jdbcType=BIT}, #{validTime,jdbcType=DATE}, #{invalidTime,jdbcType=DATE},
       #{picture,jdbcType=LONGVARBINARY})
   </insert>
   <insert id="insertSelective" parameterType="com.zlx.bangbang.domain.CouponInfo" >
@@ -144,10 +158,10 @@
         is_deleted = #{isDeleted,jdbcType=BIT},
       </if>
       <if test="validTime != null" >
-        valid_time = #{validTime,jdbcType=TIMESTAMP},
+        valid_time = #{validTime,jdbcType=DATE},
       </if>
       <if test="invalidTime != null" >
-        invalid_time = #{invalidTime,jdbcType=TIMESTAMP},
+        invalid_time = #{invalidTime,jdbcType=DATE},
       </if>
       <if test="picture != null" >
         picture = #{picture,jdbcType=LONGVARBINARY},
@@ -160,8 +174,8 @@
     set least_price = #{leastPrice,jdbcType=INTEGER},
       reduce_price = #{reducePrice,jdbcType=INTEGER},
       is_deleted = #{isDeleted,jdbcType=BIT},
-      valid_time = #{validTime,jdbcType=TIMESTAMP},
-      invalid_time = #{invalidTime,jdbcType=TIMESTAMP},
+      valid_time = #{validTime,jdbcType=DATE},
+      invalid_time = #{invalidTime,jdbcType=DATE},
       picture = #{picture,jdbcType=LONGVARBINARY}
     where coupon_id = #{couponId,jdbcType=INTEGER}
   </update>
@@ -170,8 +184,8 @@
     set least_price = #{leastPrice,jdbcType=INTEGER},
       reduce_price = #{reducePrice,jdbcType=INTEGER},
       is_deleted = #{isDeleted,jdbcType=BIT},
-      valid_time = #{validTime,jdbcType=TIMESTAMP},
-      invalid_time = #{invalidTime,jdbcType=TIMESTAMP}
+      valid_time = #{validTime,jdbcType=DATE},
+      invalid_time = #{invalidTime,jdbcType=DATE}
     where coupon_id = #{couponId,jdbcType=INTEGER}
   </update>
 </mapper>

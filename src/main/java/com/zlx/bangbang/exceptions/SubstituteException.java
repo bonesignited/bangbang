@@ -1,8 +1,10 @@
 package com.zlx.bangbang.exceptions;
 
 import com.zlx.bangbang.enums.ResultEnum;
+import lombok.Getter;
 
-public class SubtituteException extends RuntimeException {
+@Getter
+public class SubstituteException extends RuntimeException {
     /**
      * note 自定义异常调用 super() 设置异常信息，
      * 可以自行定义如 code 等其它字段
@@ -10,17 +12,17 @@ public class SubtituteException extends RuntimeException {
 
     private Integer code;
 
-    public SubtituteException(ResultEnum resultEnum) {
+    public SubstituteException(ResultEnum resultEnum) {
         super(resultEnum.getMsg());
         this.code = resultEnum.getCode();
     }
 
-    public SubtituteException(String message, Integer code) {
+    public SubstituteException(String message, Integer code) {
         super(message);
         this.code = code;
     }
 
-    public SubtituteException(String message) {
+    public SubstituteException(String message) {
         super(message);
         this.code = -1;
     }

@@ -1,6 +1,5 @@
 package com.zlx.bangbang.dao;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.zlx.bangbang.domain.Indent;
 import com.zlx.bangbang.enums.GenderEnum;
 import com.zlx.bangbang.enums.IndentStateEnum;
@@ -39,6 +38,7 @@ public interface IndentMapper {
     List<Indent> findAllByIndentStateAndRequireGenderNotOrderByIndentPriceDesc(@Param("state") IndentStateEnum state,
                                                              @Param("gender") GenderEnum excludeGender);
 
+    // 由晚到早
     List<Indent> findAllByIndentStateAndRequireGenderNotOrderByCreateTimeDesc(@Param("state") IndentStateEnum state,
                                                                                @Param("gender") GenderEnum excludeGender);
 

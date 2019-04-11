@@ -11,10 +11,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
 @Configuration
-// @EnableCaching // todo 启用缓存，缓存具体指什么？
+// @EnableCaching
 public class RedisConfig {
-
-//    // todo what is connection factory, what difference between jedis and redis ?
 
     @ConditionalOnMissingBean(name = "redisTemplate")
     @Bean

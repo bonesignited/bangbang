@@ -1,6 +1,6 @@
 package com.zlx.bangbang.enums;
 
-public enum IndentStateEnum{
+public enum IndentStateEnum implements BaseEnum{
     /**
      * 等待接单
      */

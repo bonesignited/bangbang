@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true">
+  <contextName>logback</contextName>
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} %contextName [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="console" />
+  </root>
+
+
+  <logger name="com.zlx.bangbang" level="INFO" additivity="false">
+    <appender-ref ref="console"/>
+  </logger>
+
+  <logger name="com.zlx.bangbang.dao" level="DEBUG" additivity="false">
+    <appender-ref ref="console"/>
+  </logger>
+
+</configuration>
