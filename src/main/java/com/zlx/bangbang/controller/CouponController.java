@@ -1,7 +1,6 @@
 package com.zlx.bangbang.controller;
 
 
-import com.sun.deploy.net.HttpResponse;
 import com.zlx.bangbang.form.CouponUserForm;
 import com.zlx.bangbang.service.CouponInfoService;
 import com.zlx.bangbang.service.CouponRecordService;
@@ -10,8 +9,6 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sun.nio.ch.IOUtil;
-import sun.rmi.server.InactiveGroupException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
@@ -46,6 +43,7 @@ public class CouponController {
     /**
      * 某用户领取优惠券
      */
+    @PostMapping("/get")
     public ResponseEntity getCoupon(@RequestBody CouponUserForm couponUserForm) {
         couponRecordService.create(couponUserForm.getUserId(), couponUserForm.getCouponId());
         return ResultUtil.success();

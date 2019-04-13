@@ -11,7 +11,7 @@ public interface AddressService {
     /**
      * 添加用户常用地址
      */
-    void addUsualAddress(String userId, AddressDTO addressDTO) throws AccessDeniedException;
+    void addUsualAddress(String userId, AddressDTO addressDTO);
 
     /**
      * 通过 id 获取address信息
@@ -28,12 +28,12 @@ public interface AddressService {
     /**
      * 修改地址
      */
-    void modifyAddress(Integer addressId, String userId, AddressDTO modifyAddressDTO) throws AccessDeniedException;
+    void modifyAddress(Integer addressId, String userId, AddressDTO modifyAddressDTO);
 
     /**
      * 删除地址
      */
-    void deleteAddress(Integer addressId, String userId) throws AccessDeniedException;
+    void deleteAddress(Integer addressId, String userId);
 
 }
 

@@ -28,28 +28,22 @@
   <sql id="Blob_Column_List" >
     picture
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from coupon_info
     where coupon_id = #{couponId,jdbcType=INTEGER}
   </select>
-  <select id="findAllGet" resultMap="ResultMapWithBLOBs">
+  <select id="findAllGet" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from substitute.coupon_info
     where invalid_time > NOW()
     and is_deleted = false
   </select>
-  <select id="findAllGetExcept" resultMap="ResultMapWithBLOBs">
+  <select id="findAllGetExcept" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from substitute.coupon_info
     where invalid_time > NOW()
     and is_deleted = false
@@ -60,21 +54,17 @@
     </foreach>
   </select>
   <select id="findTop5ByInvalidTimeAfterAndIsFalseOrderByCouponIdDesc"
-          resultMap="ResultMapWithBLOBs">
+          resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from substitute.coupon_info
     where NOW() > invalid_time
     and is_deleted = false
     order by coupon_id desc limit 5
   </select>
-  <select id="findAllByCouponIdIsInAndIsDeletedIsFalse" resultMap="ResultMapWithBLOBs">
+  <select id="findAllByCouponIdIsInAndIsDeletedIsFalse" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from substitute.coupon_info
     where invalid_time > NOW()
     and is_deleted = false

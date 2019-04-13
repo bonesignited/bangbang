@@ -5,6 +5,7 @@ import com.zlx.bangbang.dao.UserMapper;
 import com.zlx.bangbang.domain.Address;
 import com.zlx.bangbang.domain.User;
 import com.zlx.bangbang.dto.AddressDTO;
+import com.zlx.bangbang.exceptions.SubstituteException;
 import com.zlx.bangbang.service.AddressService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -27,11 +28,11 @@ public class AddressServiceImpl implements AddressService {
     private AddressMapper addressMapper;
 
     @Override
-    public void addUsualAddress(String userId, AddressDTO addressDTO) throws AccessDeniedException {
+    public void addUsualAddress(String userId, AddressDTO addressDTO){
         log.info(userId + "将修改地址");
         User user = userMapper.selectByPrimaryKey(userId);
         if (!addressDTO.getUserId().equals(userId)) {
-            throw new AccessDeniedException("Access Denied");
+            throw new SubstituteException("用户Id不同，无法添加地址");
         }
         if (user != null) {
             Address address = new Address();
@@ -64,13 +65,15 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void modifyAddress(Integer addressId, String userId, AddressDTO modifyAddressDTO) throws AccessDeniedException {
+    public void modifyAddress(Integer addressId, String userId, AddressDTO modifyAddressDTO){
         Address address = addressMapper.selectByPrimaryKey(addressId);
         if (address == null) {
             return;
         }
 
-        if (!address.getUserId().equals(userId)) throw new AccessDeniedException("Access Denied");
+        if (!address.getUserId().equals(userId)) {
+            throw new SubstituteException("用户Id不同，无法修改地址");
+        }
 
         if (modifyAddressDTO.getAddress() != null) address.setAddress(modifyAddressDTO.getAddress());
         if (modifyAddressDTO.getPhone() != null) address.setPhone(modifyAddressDTO.getPhone());
@@ -79,10 +82,12 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public void deleteAddress(Integer addressId, String userId) throws AccessDeniedException {
+    public void deleteAddress(Integer addressId, String userId){
         Address address = addressMapper.selectByPrimaryKey(addressId);
         if (address != null) {
-            if (!address.getUserId().equals(userId)) throw new AccessDeniedException("Access Denied");
+            if (!address.getUserId().equals(userId)) {
+                throw new SubstituteException("用户Id不同，无法删除地址");
+            }
             if (userId.equals(address.getUserId())) {
                 address.setIsDeleted(true);
                 addressMapper.updateByPrimaryKeySelective(address);

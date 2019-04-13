@@ -1,5 +1,8 @@
 package com.zlx.bangbang.dto;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.zlx.bangbang.enums.GenderEnum;
+import com.zlx.bangbang.utils.Date2LongSerializer;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,17 +15,31 @@ public class UserInfoDTO implements Serializable {
 
     private String id;
 
+    private String masterId;
+
     private String userName;
 
     private String avatar;
 
-    private String gender;
+    private GenderEnum gender;
 
     private String trueName;
 
     private Long phone;
 
-    private Integer schoolId;
+    private String school;
 
-    private String userPass;
+    @JsonSerialize(using = Date2LongSerializer.class)
+    private Date createTime;
+
+    @JsonSerialize(using = Date2LongSerializer.class)
+    private Date updateTime;
+
+    private BigDecimal balance;
+
+    private BigDecimal allIncome;
+
+    private BigDecimal masterIncome;
+
+
 }

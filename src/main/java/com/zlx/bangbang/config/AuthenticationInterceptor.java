@@ -19,7 +19,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         HttpSession session = httpServletRequest.getSession();
 
         User user = (User) session.getAttribute(Constant.CURRENT_USER);
-        if (user == null){
+        if (user == null) {
             throw new SubstituteException(ResultEnum.NEED_LOGIN);
         }
 

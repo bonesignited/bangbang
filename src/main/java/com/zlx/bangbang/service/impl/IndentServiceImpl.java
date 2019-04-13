@@ -406,25 +406,29 @@ public class IndentServiceImpl implements IndentService {
         }
 
         List<Indent> indents;
+        PageInfo info;
 
-        // done 测试有分支的情况下能否在分支外使用 startPage
-        // done 答：可以
-        PageHelper.startPage(pageNum, pageSize);
         switch (sortTypeEnum) {
             case SORT_BY_TIME:
+                PageHelper.startPage(pageNum, pageSize);
                 indents = indentMapper.findAllByIndentStateAndRequireGenderNotOrderByCreateTimeDesc(
                         IndentStateEnum.WAIT_FOR_PERFORMER, excludeGender
                 );
+                info = new PageInfo(indents);
                 break;
             case SORT_BY_PRICE:
+                PageHelper.startPage(pageNum, pageSize);
                 indents = indentMapper.findAllByIndentStateAndRequireGenderNotOrderByIndentPriceDesc(
                         IndentStateEnum.WAIT_FOR_PERFORMER, excludeGender
                 );
+                info = new PageInfo(indents);
                 break;
             case SORT_BY_DEFAULT:
+                PageHelper.startPage(pageNum, pageSize);
                 List<Indent> temp = indentMapper.findAllByIndentStateAndRequireGenderNot(
                         IndentStateEnum.WAIT_FOR_PERFORMER, excludeGender
                 );
+                info = new PageInfo(temp);
                 //随机打乱一下
                 Random random = new Random();
                 indents = new ArrayList<>();
@@ -438,7 +442,7 @@ public class IndentServiceImpl implements IndentService {
                 log.error("[获取订单列表]获取失败，sortType有误，sortType={}", sortType);
                 throw new SubstituteException("sortType有误");
         }
-        PageInfo info = new PageInfo(indents);
+
         boolean hasNextPage = info.isHasNextPage();
         List<IndentVO> indentVOS = indent2VO(indents);
         indentVOS.forEach(x -> {

@@ -35,6 +35,15 @@ public class CouponInfo {
         this.picture = picture;
     }
 
+    public CouponInfo(Integer couponId, Integer leastPrice, Integer reducePrice, Boolean isDeleted, Date validTime, Date invalidTime) {
+        this.couponId = couponId;
+        this.leastPrice = leastPrice;
+        this.reducePrice = reducePrice;
+        this.isDeleted = isDeleted;
+        this.validTime = validTime;
+        this.invalidTime = invalidTime;
+    }
+
     public CouponInfo() {
         super();
     }

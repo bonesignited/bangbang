@@ -38,16 +38,4 @@ public class BaseController {
 
     public BaseController() {
     }
-
-    @ExceptionHandler(SubstituteException.class)
-    @ResponseBody
-    public ResponseEntity handleSubstituteException(SubstituteException e) {
-        return ResultUtil.error(e.getCode(), e.getMessage());
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity handleAccessDeniedException(Exception e) {
-        log.error(e.getMessage());
-        return ResultUtil.error(Constant.SYSTEM_BUSY_CODE, e.getMessage(), HttpStatus.UNAUTHORIZED);
-    }
 }
