@@ -1,7 +1,7 @@
 package com.zlx.bangbang.config;
 
 import com.zlx.bangbang.constants.Constant;
-import com.zlx.bangbang.domain.User;
+import com.zlx.bangbang.dto.UserInfoDTO;
 import com.zlx.bangbang.enums.ResultEnum;
 import com.zlx.bangbang.exceptions.SubstituteException;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,7 +18,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         HttpSession session = httpServletRequest.getSession();
 
-        User user = (User) session.getAttribute(Constant.CURRENT_USER);
+        UserInfoDTO user = (UserInfoDTO) session.getAttribute(Constant.CURRENT_USER);
         if (user == null) {
             throw new SubstituteException(ResultEnum.NEED_LOGIN);
         }
