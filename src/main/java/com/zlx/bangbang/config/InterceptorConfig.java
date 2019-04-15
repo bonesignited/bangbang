@@ -21,10 +21,4 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
     private AuthenticationInterceptor authenticationInterceptor() {
         return new AuthenticationInterceptor();
     }
-
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("/images/**").
-//                addResourceLocations("file:C:\\Users\\zhoulinxuan\\Documents\\Tencent Files\\1062463576\\FileRecv\\bangbangimages\\images\\");
-//    }
 }
