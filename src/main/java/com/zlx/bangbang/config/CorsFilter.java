@@ -29,7 +29,7 @@ public class CorsFilter implements Filter {
         String originValue = request.getHeader("Origin");
         log.error("客户端请求的 Origin 字段是 {}", originValue);
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-        response.setHeader("Access-Control-Allow-Origin", "null");  // 试试替换成 originValue
+        response.setHeader("Access-Control-Allow-Origin", originValue);  // 试试替换成 originValue
         response.setHeader("Access-Control-Allow-Methods", "*");
 //        response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
         response.setHeader("Access-Control-Max-Age", "3600");
