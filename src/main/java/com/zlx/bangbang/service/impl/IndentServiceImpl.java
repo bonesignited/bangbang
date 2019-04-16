@@ -331,6 +331,16 @@ public class IndentServiceImpl implements IndentService {
             throw new SubstituteException(ResultEnum.INDENT_STATE_ERROR);
         }
 
+        if (userId.equals(indent.getPublisherId())) {
+            indentMapper.deleteByPrimaryKey(indentId);
+
+            // 如果取消订单的用户是下单人，退钱
+            User user = userService.getUserById(indent.getPublisherId());
+            user.setBalance(user.getBalance().add(BigDecimal.valueOf(indent.getTotalPrice())));
+            userService.saveUser(user);
+            return;
+        }
+
         if (userId.equals(indent.getPerformerId())) {
             // 接单人取消订单
             // 若为待接单状态则无权限取消
@@ -340,7 +350,6 @@ public class IndentServiceImpl implements IndentService {
             // 将订单重新变为待接状态
             log.info("【取消订单】接单人取消订单，userId={}，indent={}", userId, indent);
             indent.setIndentState(IndentStateEnum.WAIT_FOR_PERFORMER);
-//            indent.setUrgentType(UrgentTypeEnum.CANCEL.getCode().byteValue());
             indent.setPerformerId(null);
             indentMapper.updateByPrimaryKeySelective(indent);
             return;
@@ -350,15 +359,6 @@ public class IndentServiceImpl implements IndentService {
             log.error("【取消订单】取消订单失败，操作用户非下单人，userId={}，indentId={}", userId, indent);
             throw new SubstituteException("取消订单失败，操作用户无权限，非下单人");
         }
-
-        // 如果取消订单的用户是下单人，退钱
-        User user = userService.getUserById(indent.getPublisherId());
-        user.setBalance(user.getBalance().add(BigDecimal.valueOf(indent.getTotalPrice())));
-        userService.saveUser(user);
-
-        // 修改订单状态
-        indent.setIndentState(IndentStateEnum.CANCELED);
-        indentMapper.updateByPrimaryKeySelective(indent);
     }
 
     @Override

@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -65,5 +66,21 @@ public class CouponInfoMapperTest {
 
     @Test
     public void findTop5ByInvalidTimeAfterAndIsFalseOrderByCouponIdDesc() {
+    }
+
+    @Test
+    public void findLiveCouponListByUserId(){
+        List<CouponInfo> couponInfoList = couponInfoMapper.findLiveCouponListByUserId("A12345");
+        for (CouponInfo couponInfo : couponInfoList) {
+            System.out.println(couponInfo.getCouponId());
+        }
+    }
+
+    @Test
+    public void findGetCouponListByUserId() {
+        List<CouponInfo> couponInfoList = couponInfoMapper.findGetCouponListByUserId("A12345");
+        for (CouponInfo couponInfo : couponInfoList) {
+            System.out.println(couponInfo.getCouponId());
+        }
     }
 }

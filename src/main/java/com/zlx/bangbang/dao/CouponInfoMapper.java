@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 @Mapper
 public interface CouponInfoMapper {
-    // todo 测试
 
     int deleteByPrimaryKey(Integer couponId);
 
@@ -33,4 +32,8 @@ public interface CouponInfoMapper {
     List<CouponInfo> findTop5ByInvalidTimeAfterAndIsFalseOrderByCouponIdDesc(Date date);
 
     List<CouponInfo> findAllByCouponIdIsInAndIsDeletedIsFalse(List<Integer> couponIds);
+
+    List<CouponInfo> findLiveCouponListByUserId(String userId);
+
+    List<CouponInfo> findGetCouponListByUserId(String userId);
 }

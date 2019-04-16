@@ -39,27 +39,12 @@ public class CouponInfoServiceImpl implements CouponInfoService {
         CouponListVO couponListVO = new CouponListVO();
         // 1 获取已领取且可用的优惠券
         // 1.1 获取所有已领取信息
-        List<CouponRecord> couponRecords = couponRecordService.findLiveByUserId(userId);
-        List<Integer> couponIds = new ArrayList<>();
-        couponRecords.forEach(x -> {
-            if (!x.getIsUsed()) {
-                couponIds.add(x.getCouponId());
-            }
-        });
-        List<CouponInfo> liveCouponInfos = couponInfoMapper.findAllByCouponIdIsInAndIsDeletedIsFalse(couponIds);
+        List<CouponInfo> liveCouponInfos = couponInfoMapper.findLiveCouponListByUserId(userId);
         couponListVO.setLiveCoupons(liveCouponInfos);
         // 2 获取未领取但可领取的优惠券
         // 获取该用户已领取的优惠券 id
-        List<Integer> couponGetIds = couponRecords.stream().map(CouponRecord::getCouponId).collect(Collectors.toList());
-        // 获取该用户所有可领取的优惠券
-        List<CouponInfo> couponInfos;
-        if (couponGetIds.size() == 0) {
-            couponInfos = couponInfoMapper.findAllGet();
-        } else {
-            couponInfos = couponInfoMapper.findAllGetExcept(couponGetIds);
-        }
-
-        couponListVO.setGetCoupons(couponInfos);
+        List<CouponInfo> getCouponInfos = couponInfoMapper.findGetCouponListByUserId(userId);
+        couponListVO.setGetCoupons(getCouponInfos);
         return couponListVO;
     }
 
@@ -83,9 +68,5 @@ public class CouponInfoServiceImpl implements CouponInfoService {
             userCouponDTOS.add(userCouponDTO);
         });
         return userCouponDTOS;
-    }
-
-    public CouponInfo findByCouponId(Integer couponId) {
-        return null;
     }
 }

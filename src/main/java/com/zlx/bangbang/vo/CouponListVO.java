@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class CouponListVO {
     /**
-     * 可用优惠券列表
+     * 已领取且可用优惠券列表
      */
     private List<CouponInfo> liveCoupons;
 

@@ -74,6 +74,28 @@
       #{couponId}
     </foreach>
   </select>
+  <select id="findLiveCouponListByUserId" resultMap="BaseResultMap">
+    select
+    info.*
+    from substitute.coupon_info info join coupon_record record
+    where info.coupon_id = record.coupon_id
+    and info.invalid_time > NOW()
+    and record.is_used = 0
+    and info.is_deleted = 0
+    and record.owner_id = #{userId}
+  </select>
+  <select id="findGetCouponListByUserId" resultMap="BaseResultMap">
+    select
+    coupon_info.*
+    from coupon_info
+    where coupon_id not in (
+      select coupon_id
+      from coupon_record
+      where owner_id = #{userId}
+    )
+    and coupon_info.invalid_time > NOW()
+    and is_deleted = 0
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from coupon_info
     where coupon_id = #{couponId,jdbcType=INTEGER}
