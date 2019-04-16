@@ -40,12 +40,6 @@ public class IndentVO {
     //实付金额,单位元
     private Integer totalPrice;
 
-    //加急类型，0:不加急，1:超时 2:退单
-    private Integer urgentType;
-
-    //加急订单是否已处理，0：否，1：是，默认为0
-    private Boolean isSolved;
-
     //订单状态,待接单：WAIT_FOR_PERFORMER，执行中：PERFORMING，货物已送达：ARRIVED，已完成：COMPLETED
     private IndentStateEnum indentState;
 

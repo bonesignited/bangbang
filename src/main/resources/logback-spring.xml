@@ -123,5 +123,8 @@
       <appender-ref ref="fileWarnLog" />
     </root>
 
+    <logger name="com.zlx.bangbang.dao" level="TRACE" additivity="false">
+      <appender-ref ref="consoleLog"/>
+    </logger>
   </springProfile>
 </configuration>

@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
         user.setUserPass(password);
 
         user.setId(RandomUtil.generateUserId());
-        user.setAvatar("avatar-url-for-test");
+        user.setAvatar("http://www.sweethaochen.cn/icon/images/my.jpg");
         user.setGender(GenderEnum.NO_LIMITED);
         user.setBalance(new BigDecimal(0));
         user.setAllIncome(new BigDecimal(0));
