@@ -16,10 +16,6 @@ import java.util.Date;
 public class User {
     private String id;
 
-    private String openid;
-
-    private String masterId;
-
     private String userName;
 
     private String avatar;
@@ -29,8 +25,6 @@ public class User {
     private BigDecimal balance;
 
     private BigDecimal allIncome;
-
-    private BigDecimal masterIncome;
 
     private String trueName;
 
@@ -46,16 +40,13 @@ public class User {
 
     private String userPass;
 
-    public User(String id, String openid, String masterId, String userName, String avatar, GenderEnum gender, BigDecimal balance, BigDecimal allIncome, BigDecimal masterIncome, String trueName, Long phone, Integer schoolId, Date createTime, Date updateTime, String userPass) {
+    public User(String id, String userName, String avatar, GenderEnum gender, BigDecimal balance, BigDecimal allIncome, String trueName, Long phone, Integer schoolId, Date createTime, Date updateTime, String userPass) {
         this.id = id;
-        this.openid = openid;
-        this.masterId = masterId;
         this.userName = userName;
         this.avatar = avatar;
         this.gender = gender;
         this.balance = balance;
         this.allIncome = allIncome;
-        this.masterIncome = masterIncome;
         this.trueName = trueName;
         this.phone = phone;
         this.schoolId = schoolId;

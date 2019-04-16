@@ -4,15 +4,12 @@
   <resultMap id="BaseResultMap" type="com.zlx.bangbang.domain.User" >
     <constructor >
       <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="openid" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="master_id" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="user_name" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="avatar" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="gender" jdbcType="VARCHAR" javaType="com.zlx.bangbang.enums.GenderEnum"
         typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
       <arg column="balance" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
       <arg column="all_income" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
-      <arg column="master_income" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
       <arg column="true_name" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="phone" jdbcType="BIGINT" javaType="java.lang.Long" />
       <arg column="school_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -22,7 +19,7 @@
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, openid, master_id, user_name, avatar, gender, balance, all_income, master_income, 
+    id, user_name, avatar, gender, balance, all_income,
     true_name, phone, school_id, create_time, update_time, user_pass
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -42,14 +39,14 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.zlx.bangbang.domain.User" >
-    insert into user (id, openid, master_id, 
+    insert into user (id,
       user_name, avatar, gender, 
-      balance, all_income, master_income, 
+      balance, all_income,
       true_name, phone, school_id, 
       create_time, update_time, user_pass)
-    values (#{id,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, #{masterId,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR},
       #{userName,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
-      #{balance,jdbcType=DECIMAL}, #{allIncome,jdbcType=DECIMAL}, #{masterIncome,jdbcType=DECIMAL}, 
+      #{balance,jdbcType=DECIMAL}, #{allIncome,jdbcType=DECIMAL},
       #{trueName,jdbcType=VARCHAR}, #{phone,jdbcType=BIGINT}, #{schoolId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{userPass,jdbcType=VARCHAR})
   </insert>
@@ -58,12 +55,6 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
-      </if>
-      <if test="openid != null" >
-        openid,
-      </if>
-      <if test="masterId != null" >
-        master_id,
       </if>
       <if test="userName != null" >
         user_name,
@@ -79,9 +70,6 @@
       </if>
       <if test="allIncome != null" >
         all_income,
-      </if>
-      <if test="masterIncome != null" >
-        master_income,
       </if>
       <if test="trueName != null" >
         true_name,
@@ -106,12 +94,6 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="openid != null" >
-        #{openid,jdbcType=VARCHAR},
-      </if>
-      <if test="masterId != null" >
-        #{masterId,jdbcType=VARCHAR},
-      </if>
       <if test="userName != null" >
         #{userName,jdbcType=VARCHAR},
       </if>
@@ -126,9 +108,6 @@
       </if>
       <if test="allIncome != null" >
         #{allIncome,jdbcType=DECIMAL},
-      </if>
-      <if test="masterIncome != null" >
-        #{masterIncome,jdbcType=DECIMAL},
       </if>
       <if test="trueName != null" >
         #{trueName,jdbcType=VARCHAR},
@@ -153,12 +132,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zlx.bangbang.domain.User" >
     update user
     <set >
-      <if test="openid != null" >
-        openid = #{openid,jdbcType=VARCHAR},
-      </if>
-      <if test="masterId != null" >
-        master_id = #{masterId,jdbcType=VARCHAR},
-      </if>
       <if test="userName != null" >
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
@@ -173,9 +146,6 @@
       </if>
       <if test="allIncome != null" >
         all_income = #{allIncome,jdbcType=DECIMAL},
-      </if>
-      <if test="masterIncome != null" >
-        master_income = #{masterIncome,jdbcType=DECIMAL},
       </if>
       <if test="trueName != null" >
         true_name = #{trueName,jdbcType=VARCHAR},
@@ -200,14 +170,12 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zlx.bangbang.domain.User" >
     update user
-    set openid = #{openid,jdbcType=VARCHAR},
-      master_id = #{masterId,jdbcType=VARCHAR},
+    set
       user_name = #{userName,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       gender = #{gender,jdbcType=VARCHAR},
       balance = #{balance,jdbcType=DECIMAL},
       all_income = #{allIncome,jdbcType=DECIMAL},
-      master_income = #{masterIncome,jdbcType=DECIMAL},
       true_name = #{trueName,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=BIGINT},
       school_id = #{schoolId,jdbcType=INTEGER},

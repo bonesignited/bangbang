@@ -1,8 +1,10 @@
 package com.zlx.bangbang.service.impl;
 
+import com.alibaba.druid.sql.visitor.functions.Concat;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zlx.bangbang.config.AdminCongiurableConfig;
+import com.zlx.bangbang.constants.Constant;
 import com.zlx.bangbang.dao.IndentMapper;
 import com.zlx.bangbang.dao.UserMapper;
 import com.zlx.bangbang.domain.*;
@@ -138,7 +140,7 @@ public class IndentServiceImpl implements IndentService {
     public Integer create(Indent indent) {
         // 1. 验证参数是否有效
         // 1.1 验证订单金额
-        if (indent.getIndentPrice() < AdminCongiurableConfig.leastPrice) {
+        if (indent.getIndentPrice() < Constant.leastPrice) {
             log.error("[创建订单] 创建失败，订单金额不能小于 3 元，indent={}", indent);
             throw new SubstituteException("订单金额不能小于 3 元");
         }

@@ -17,8 +17,6 @@
       <arg column="indent_content" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="indent_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="total_price" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="urgent_type" jdbcType="TINYINT" javaType="java.lang.Byte" />
-      <arg column="is_solved" jdbcType="BIT" javaType="java.lang.Boolean" />
 
       <arg column="indent_state" jdbcType="VARCHAR" javaType="com.zlx.bangbang.enums.IndentStateEnum"
            typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
@@ -34,7 +32,7 @@
 
   <sql id="Base_Column_List" >
     indent_id, performer_id, publisher_id, coupon_id, coupon_price, indent_type, require_gender, 
-    indent_content, indent_price, total_price, urgent_type, is_solved, indent_state, 
+    indent_content, indent_price, total_price, indent_state,
     secret_text, take_good_address, shipping_address_id, good_price, create_time, update_time
   </sql>
 
@@ -95,16 +93,6 @@
     order by create_time desc
   </select>
 
-  <select id="findAllByIsSolvedAndUrgentTypeGreaterThanOrderByCreateTimeDesc"
-          resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List"/>
-    from substitute.indent
-    where is_solved = #{isSolved}
-    and urgent_type > #{type}
-    order by create_time desc
-  </select>
-
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from indent
     where indent_id = #{indentId,jdbcType=INTEGER}
@@ -114,14 +102,14 @@
     insert into indent (indent_id, performer_id, publisher_id, 
       coupon_id, coupon_price, indent_type, 
       require_gender, indent_content, indent_price, 
-      total_price, urgent_type, is_solved, 
+      total_price,
       indent_state, secret_text, take_good_address, 
       shipping_address_id, good_price, create_time, 
       update_time)
     values (#{indentId,jdbcType=INTEGER}, #{performerId,jdbcType=VARCHAR}, #{publisherId,jdbcType=VARCHAR}, 
       #{couponId,jdbcType=INTEGER}, #{couponPrice,jdbcType=INTEGER}, #{indentType,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
       #{requireGender,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler}, #{indentContent,jdbcType=VARCHAR}, #{indentPrice,jdbcType=INTEGER},
-      #{totalPrice,jdbcType=INTEGER}, #{urgentType,jdbcType=TINYINT}, #{isSolved,jdbcType=BIT}, 
+      #{totalPrice,jdbcType=INTEGER},
       #{indentState,jdbcType=VARCHAR, typeHandler=org.apache.ibatis.type.EnumTypeHandler}, #{secretText,jdbcType=VARCHAR}, #{takeGoodAddress,jdbcType=VARCHAR},
       #{shippingAddressId,jdbcType=INTEGER}, #{goodPrice,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP})
@@ -159,12 +147,6 @@
       </if>
       <if test="totalPrice != null" >
         total_price,
-      </if>
-      <if test="urgentType != null" >
-        urgent_type,
-      </if>
-      <if test="isSolved != null" >
-        is_solved,
       </if>
       <if test="indentState != null" >
         indent_state,
@@ -218,12 +200,6 @@
       </if>
       <if test="totalPrice != null" >
         #{totalPrice,jdbcType=INTEGER},
-      </if>
-      <if test="urgentType != null" >
-        #{urgentType,jdbcType=TINYINT},
-      </if>
-      <if test="isSolved != null" >
-        #{isSolved,jdbcType=BIT},
       </if>
       <if test="indentState != null" >
         #{indentState,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
@@ -279,12 +255,6 @@
       <if test="totalPrice != null" >
         total_price = #{totalPrice,jdbcType=INTEGER},
       </if>
-      <if test="urgentType != null" >
-        urgent_type = #{urgentType,jdbcType=TINYINT},
-      </if>
-      <if test="isSolved != null" >
-        is_solved = #{isSolved,jdbcType=BIT},
-      </if>
       <if test="indentState != null" >
         indent_state = #{indentState,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
       </if>
@@ -321,8 +291,6 @@
       indent_content = #{indentContent,jdbcType=VARCHAR},
       indent_price = #{indentPrice,jdbcType=INTEGER},
       total_price = #{totalPrice,jdbcType=INTEGER},
-      urgent_type = #{urgentType,jdbcType=TINYINT},
-      is_solved = #{isSolved,jdbcType=BIT},
       indent_state = #{indentState,jdbcType=VARCHAR,typeHandler=org.apache.ibatis.type.EnumTypeHandler},
       secret_text = #{secretText,jdbcType=VARCHAR},
       take_good_address = #{takeGoodAddress,jdbcType=VARCHAR},

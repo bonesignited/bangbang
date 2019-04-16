@@ -66,7 +66,6 @@ public class UserServiceImpl implements UserService {
         user.setUserPass(password);
 
         user.setId(RandomUtil.generateUserId());
-        user.setOpenid("openid-for-test");
         user.setAvatar("avatar-url-for-test");
         user.setGender(GenderEnum.NO_LIMITED);
         user.setBalance(new BigDecimal(0));
@@ -134,5 +133,4 @@ public class UserServiceImpl implements UserService {
 
         userMapper.updateByPrimaryKeySelective(user);
     }
-
 }

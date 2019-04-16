@@ -43,7 +43,4 @@ public interface IndentMapper {
                                                                                @Param("gender") GenderEnum excludeGender);
 
     List<Indent> findAllByIndentStateOrderCreateTimeDesc(IndentStateEnum state);
-
-    List<Indent> findAllByIsSolvedAndUrgentTypeGreaterThanOrderByCreateTimeDesc(Boolean isSolved, Integer type);
-
 }

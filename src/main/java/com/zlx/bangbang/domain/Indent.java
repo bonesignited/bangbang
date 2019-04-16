@@ -32,10 +32,6 @@ public class Indent {
 
     private Integer totalPrice;
 
-    private Byte urgentType;
-
-    private Boolean isSolved;
-
     private IndentStateEnum indentState;
 
     private String secretText;
@@ -50,7 +46,7 @@ public class Indent {
 
     private Date updateTime;
 
-    public Indent(Integer indentId, String performerId, String publisherId, Integer couponId, Integer couponPrice, IndentTypeEnum indentType, GenderEnum requireGender, String indentContent, Integer indentPrice, Integer totalPrice, Byte urgentType, Boolean isSolved, IndentStateEnum indentState, String secretText, String takeGoodAddress, Integer shippingAddressId, BigDecimal goodPrice, Date createTime, Date updateTime) {
+    public Indent(Integer indentId, String performerId, String publisherId, Integer couponId, Integer couponPrice, IndentTypeEnum indentType, GenderEnum requireGender, String indentContent, Integer indentPrice, Integer totalPrice, IndentStateEnum indentState, String secretText, String takeGoodAddress, Integer shippingAddressId, BigDecimal goodPrice, Date createTime, Date updateTime) {
         this.indentId = indentId;
         this.performerId = performerId;
         this.publisherId = publisherId;
@@ -61,8 +57,6 @@ public class Indent {
         this.indentContent = indentContent;
         this.indentPrice = indentPrice;
         this.totalPrice = totalPrice;
-        this.urgentType = urgentType;
-        this.isSolved = isSolved;
         this.indentState = indentState;
         this.secretText = secretText;
         this.takeGoodAddress = takeGoodAddress;
@@ -154,22 +148,6 @@ public class Indent {
 
     public void setTotalPrice(Integer totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    public Byte getUrgentType() {
-        return urgentType;
-    }
-
-    public void setUrgentType(Byte urgentType) {
-        this.urgentType = urgentType;
-    }
-
-    public Boolean getIsSolved() {
-        return isSolved;
-    }
-
-    public void setIsSolved(Boolean isSolved) {
-        this.isSolved = isSolved;
     }
 
     public IndentStateEnum getIndentState() {

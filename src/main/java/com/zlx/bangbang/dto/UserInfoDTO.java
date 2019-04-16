@@ -15,8 +15,6 @@ public class UserInfoDTO implements Serializable {
 
     private String id;
 
-    private String masterId;
-
     private String userName;
 
     private String avatar;
@@ -38,8 +36,4 @@ public class UserInfoDTO implements Serializable {
     private BigDecimal balance;
 
     private BigDecimal allIncome;
-
-    private BigDecimal masterIncome;
-
-
 }
