@@ -33,7 +33,7 @@
     from substitute.address
     where user_id = #{userId, jdbcType=VARCHAR}
     and address like #{address, jdbcType=VARCHAR}
-    and is_delete = false
+    and is_deleted = false
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from address

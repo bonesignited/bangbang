@@ -360,21 +360,16 @@ public class IndentServiceImpl implements IndentService {
     }
 
     @Override
-    public IndentListVO getUserPublishedIndent(String userId, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+    public IndentListVO getUserPublishedIndent(String userId) {
         List<Indent> indents = indentMapper.findByPublisherId(userId);
-        PageInfo info = new PageInfo(indents);
-        boolean hasNextPage = info.isHasNextPage();
-        // todo 重新写一个 IndentListVO，里面包含了 hasNextPage
+        boolean hasNextPage = false;
         return new IndentListVO(indent2VO(indents), hasNextPage);
     }
 
     @Override
-    public IndentListVO getUserPerformedIndent(String userId, int pageNum, int pageSize) {
-        PageHelper.startPage(pageNum, pageSize);
+    public IndentListVO getUserPerformedIndent(String userId) {
         List<Indent> indents = indentMapper.findByPerformerId(userId);
-        PageInfo info = new PageInfo(indents);
-        boolean hasNextPage = info.isHasNextPage();
+        boolean hasNextPage = false;
         return new IndentListVO(indent2VO(indents), hasNextPage);
     }
 

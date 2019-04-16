@@ -38,6 +38,7 @@ public interface IndentService {
      */
     void arrivedIndent(Integer indentId, String userId);
 
+
     /**
      * 完结订单
      * 以 CompanyIncome 局部变量为返回值
@@ -61,14 +62,15 @@ public interface IndentService {
      * @param userId
      * @return 该用户已发布的订单列表
      */
-    IndentListVO getUserPublishedIndent(String userId, int pageNum, int pageSize);
+    IndentListVO getUserPublishedIndent(String userId);
+
 
     /**
      * 获取用户接的订单
      * @param userId
      * @return 该用户已接订单列表
      */
-    IndentListVO getUserPerformedIndent(String userId, int pageNum, int pageSize);
+    IndentListVO getUserPerformedIndent(String userId);
 
     /**
      * 查询同性别的订单列表，排序列表为 sortType

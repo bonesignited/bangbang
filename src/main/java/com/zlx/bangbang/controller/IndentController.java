@@ -202,18 +202,16 @@ public class IndentController {
      * 获取某用户已接订单列表
      */
     @GetMapping("/performer/{userId}")
-    public ResponseEntity getUserPersonalPerformedIndentList(@PathVariable @NotNull String userId,
-                                                             int pageNum, int pageSize) {
-        return ResultUtil.success(indentService.getUserPerformedIndent(userId, pageNum, pageSize));
+    public ResponseEntity getUserPersonalPerformedIndentList(@PathVariable @NotNull String userId) {
+        return ResultUtil.success(indentService.getUserPerformedIndent(userId));
     }
 
     /**
      * 获取某用户已发布订单列表
      */
     @GetMapping("/publisher/{userId}")
-    public ResponseEntity getUserPersonalPublishedIndentList(@PathVariable @NotNull String userId,
-                                                             int pageNum, int pageSize) {
-        return ResultUtil.success(indentService.getUserPublishedIndent(userId, pageNum, pageSize));
+    public ResponseEntity getUserPersonalPublishedIndentList(@PathVariable @NotNull String userId) {
+        return ResultUtil.success(indentService.getUserPublishedIndent(userId));
     }
 
 
