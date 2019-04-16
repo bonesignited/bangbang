@@ -37,7 +37,7 @@
   </sql>
 
   <select id="findByIndentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from indent
     where indent_id = #{indentId,jdbcType=INTEGER}

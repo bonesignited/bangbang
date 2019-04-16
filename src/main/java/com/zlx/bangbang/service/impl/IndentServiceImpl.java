@@ -256,16 +256,10 @@ public class IndentServiceImpl implements IndentService {
         }
 
         checkUserInfo(user);
-        //todo 是否只能接同校订单
-//        User publisher =userService.findUserById(indent.getPublisherId());
-//        if (!user.getSchoolId().equals(publisher.getSchoolId())){
-//            log.error("【接单】接单失败，只能接同校订单，user={}", user);
-//            throw new SubstituteException("接单失败，只能接同校订单");
-//        }
 
         indent.setPerformerId(userId);
         indent.setIndentState(IndentStateEnum.PERFORMING);
-        indentMapper.updateByPrimaryKeySelective(indent);
+        indentMapper.updateByPrimaryKey(indent);
     }
 
     @Override
@@ -284,7 +278,7 @@ public class IndentServiceImpl implements IndentService {
 
         // 该订单已送达
         indent.setIndentState(IndentStateEnum.ARRIVED);
-        indentMapper.updateByPrimaryKeySelective(indent);
+        indentMapper.updateByPrimaryKey(indent);
     }
 
     @Override
@@ -313,10 +307,10 @@ public class IndentServiceImpl implements IndentService {
         BigDecimal oldBalance = performer.getBalance();
         performer.setBalance(oldBalance.add(income));
         performer.setAllIncome(oldBalance.add(income));
-        userService.saveUser(performer);
+        userMapper.updateByPrimaryKey(performer);
 
         indent.setIndentState(IndentStateEnum.COMPLETED);
-        indentMapper.updateByPrimaryKeySelective(indent);
+        indentMapper.updateByPrimaryKey(indent);
         return BigDecimal.valueOf(indent.getIndentPrice());
     }
 
@@ -337,7 +331,7 @@ public class IndentServiceImpl implements IndentService {
             // 如果取消订单的用户是下单人，退钱
             User user = userService.getUserById(indent.getPublisherId());
             user.setBalance(user.getBalance().add(BigDecimal.valueOf(indent.getTotalPrice())));
-            userService.saveUser(user);
+            userMapper.updateByPrimaryKey(user);
             return;
         }
 
@@ -351,7 +345,7 @@ public class IndentServiceImpl implements IndentService {
             log.info("【取消订单】接单人取消订单，userId={}，indent={}", userId, indent);
             indent.setIndentState(IndentStateEnum.WAIT_FOR_PERFORMER);
             indent.setPerformerId(null);
-            indentMapper.updateByPrimaryKeySelective(indent);
+            indentMapper.updateByPrimaryKey(indent);
             return;
         }
 
@@ -460,7 +454,7 @@ public class IndentServiceImpl implements IndentService {
 
         try {
             IndentVO indentVO = indent2VO(indent);
-            if (!userId.equals(indent.getPerformerId()) && !userId.equals(indent.getPublisherId())) {
+            if (!(userId.equals(indent.getPerformerId()) || userId.equals(indent.getPublisherId()))) {
                 indentVO.setSecretText(null);
             }
             return indentVO;

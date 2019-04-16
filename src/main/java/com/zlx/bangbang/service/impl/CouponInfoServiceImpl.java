@@ -38,7 +38,6 @@ public class CouponInfoServiceImpl implements CouponInfoService {
     public CouponListVO findListByUserId(String userId) {
         CouponListVO couponListVO = new CouponListVO();
         // 1 获取已领取且可用的优惠券
-        // 1.1 获取所有已领取信息
         List<CouponInfo> liveCouponInfos = couponInfoMapper.findLiveCouponListByUserId(userId);
         couponListVO.setLiveCoupons(liveCouponInfos);
         // 2 获取未领取但可领取的优惠券
