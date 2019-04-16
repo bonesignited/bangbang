@@ -17,7 +17,6 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@CrossOrigin(origins = "localhost")
 public class UserController{
     @Autowired
     UserService userService;

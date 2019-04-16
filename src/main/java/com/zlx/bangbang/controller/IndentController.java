@@ -171,7 +171,7 @@ public class IndentController {
     /**
      * 下单人取消订单 ： 退钱
      */
-    @DeleteMapping("/canceled")
+    @PostMapping("/canceled")
     public ResponseEntity canceledIndent(@RequestBody @Valid IndentUserForm indentUserForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             //表单校验有误

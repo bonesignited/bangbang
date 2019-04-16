@@ -13,6 +13,7 @@ public enum ResultEnum implements CodeEnum{
     USER_NOT_EXISTS(-10101, "用户不存在"),
     NEED_LOGIN(-10102, "用户未登录，请先登录"),
     PWD_ERROR(-10103, "密码错误"),
+    SCHOOL_ERROR(-10104, "该学校不存在，请填入其它学校"),
 
     // -102xx 为参数错误
     PARAM_ERROR(-10201, "参数格式有误"),

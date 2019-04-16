@@ -78,7 +78,7 @@ public class CouponInfoServiceImpl implements CouponInfoService {
             UserCouponDTO userCouponDTO = new UserCouponDTO();
             BeanUtils.copyProperties(x, userCouponDTO);
             if (x.getPicture() != null) {
-                userCouponDTO.setPictureLink(""); // todo 图片链接怎么处理？
+                userCouponDTO.setPictureLink("");
             }
             userCouponDTOS.add(userCouponDTO);
         });

@@ -14,7 +14,7 @@ public class ModifyUserInfoDTO {
     @NotNull
     private Long phone;
     @NotNull
-    private Integer schoolId;
+    private String schoolName;
     @NotNull
     private GenderEnum gender;
 

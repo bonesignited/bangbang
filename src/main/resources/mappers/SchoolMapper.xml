@@ -22,7 +22,11 @@
       from substitute.school
       where school_name like #{s}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <select id="findSchoolByName" resultType="java.lang.Integer">
+    select id from substitute.school
+    where school_name = #{schoolName, jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from school
     where id = #{id,jdbcType=INTEGER}
   </delete>

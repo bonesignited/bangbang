@@ -22,4 +22,6 @@ public interface SchoolMapper {
     int updateByPrimaryKey(School record);
 
     List<School> findBySchoolNameLike(String s);
+
+    Integer findSchoolByName(String schoolName);
 }

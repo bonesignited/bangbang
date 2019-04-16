@@ -90,6 +90,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean modifyUserInfo(String userId, ModifyUserInfoDTO newInfo) {
         User databaseUserInfo = userMapper.selectByPrimaryKey(userId);
+        Integer schoolId = schoolMapper.findSchoolByName(newInfo.getSchoolName());
+        if (schoolId == null) {
+            throw new SubstituteException(ResultEnum.SCHOOL_ERROR);
+        }
+        databaseUserInfo.setSchoolId(schoolId);
         BeanUtils.copyProperties(newInfo, databaseUserInfo);
         int rows = userMapper.updateByPrimaryKeySelective(databaseUserInfo);
         return rows == 1;
