@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         }
 
         UserInfoDTO userInfoDTO = new UserInfoDTO();
-        userInfoDTO.setSchool(schoolMapper.findSchoolById(user.getSchoolId()).getSchoolName());
+//        userInfoDTO.setSchool(schoolMapper.findSchoolById(user.getSchoolId()).getSchoolName());
         BeanUtils.copyProperties(user, userInfoDTO);
         return userInfoDTO;
     }
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
     public UserInfoDTO register(String username, String password) {
         User user = new User();
         user.setUserName(username);
-        user.setUserPass(password);
+        user.setUserPass(DigestUtils.md5Hex(password));
 
         user.setId(RandomUtil.generateUserId());
         user.setAvatar("http://www.sweethaochen.cn/icon/images/my.jpg");
