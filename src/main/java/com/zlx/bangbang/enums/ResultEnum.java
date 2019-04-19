@@ -23,8 +23,6 @@ public enum ResultEnum implements CodeEnum{
     INDENT_NOT_EXISTS(-10301, "订单不存在"),
     INDENT_STATE_ERROR(-10302, "订单状态有有误"),
 
-    // -104xx 为金额错误
-    WX_NOTIFY_MONEY_VERIFY_ERROR(-10401, "微信异步通知金额校验不通过"),
 
     // -105xx 为优惠券有关
     COUPON_NOT_EXISTS(-10501, "优惠券不存在"),
